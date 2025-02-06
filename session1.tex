@@ -2,7 +2,9 @@
 
 \usepackage{quiver}
 \usepackage{amsmath, amsthm, mathrsfs}
+\usepackage[margin = 3cm]{geometry}
 \usepackage{enumitem}
+\usepackage{csquotes}
 
 \newtheorem{theorem}{Theorem}
 \theoremstyle{definition}
@@ -11,39 +13,42 @@
 \newtheorem{example}{Example}
 
 \newcommand{\A}{\mathbf{A}}
-\renewcommand{\L}{\mathbb{L}}
-\newcommand{\p}{\mathfrak{p}}
-\DeclareMathOperator{\Tor}{Tor}
+\newcommand{\C}{\mathcal{C}}
 \newcommand{\CAlg}{\mathrm{CAlg}}
-\newcommand{\Set}{\mathrm{Set}}
-\newcommand{\sSet}{\mathrm{sSet}}
-\newcommand{\Grpd}{\mathrm{Grpd}}
-\newcommand{\Spc}{\mathcal{S}\mathrm{pc}}
-\DeclareMathOperator{\Spec}{Spec}
+\newcommand{\Cart}{\operatorname{Cart}}
 \newcommand{\Cat}{\mathrm{Cat}}
 \newcommand{\Catinf}{\mathcal{C}\mathrm{at}_{\infty}}
-\DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\Map}{Map}
-\DeclareMathOperator{\Fun}{Fun}
-\newcommand{\op}{\mathrm{op}}
-\newcommand{\N}{\mathrm{N}}
-\newcommand{\Kan}{\mathrm{Kan}}
-\DeclareMathOperator{\iHom}{\underline{Hom}}
-\newcommand{\C}{\mathcal{C}}
-\newcommand{\D}{\mathcal{D}}
-\newcommand{\h}{\mathrm{h}}
-\newcommand{\M}{\mathscr{M}}
 \newcommand{\Cof}{\mathrm{Cof}}
+\newcommand{\Cut}{\operatorname{Cut}}
+\newcommand{\D}{\mathcal{D}}
 \newcommand{\Fib}{\mathrm{Fib}}
-\DeclareMathOperator{\Ob}{Ob}
-\DeclareMathOperator{\Cut}{Cut}
+\newcommand{\Fun}{\operatorname{Fun}}
+\newcommand{\Grpd}{\mathrm{Grpd}}
+\newcommand{\h}{\mathrm{h}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\iHom}{\operatorname{\underline{Hom}}}
 \newcommand{\J}{\mathcal{J}}
-\DeclareMathOperator{\QCoh}{QCoh}
-\DeclareMathOperator{\Cart}{Cart}
+\newcommand{\Kan}{\mathrm{Kan}}
+\renewcommand{\L}{\mathbb{L}}
+\newcommand{\M}{\mathscr{M}}
+\newcommand{\Map}{\operatorname{Map}}
+\newcommand{\N}{\mathrm{N}}
+\newcommand{\Ob}{\operatorname{Ob}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\p}{\mathfrak{p}}
+\newcommand{\QCoh}{\operatorname{QCoh}}
+\newcommand{\Set}{\mathrm{Set}}
+\newcommand{\Spc}{\mathcal{S}\mathrm{pc}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\sSet}{\mathrm{sSet}}
+\newcommand{\Tor}{\operatorname{Tor}}
+
 
 \title{Lecture notes in Derived Algebraic Geometry\\Session 1}
 \date{3 February 2025}
 \author{Course by F. Binda, notes by E. Hecky}
+
+
 \begin{document}
 \maketitle
 
@@ -56,55 +61,87 @@
 
 \section*{Motivations for derived geometry}
 
-Let $k$ be an algebraically closed field, and $U$, $V$ be subvarieties (say, reduced, of finite type and maybe integral) of the affine space $\A^n_k$. The scheme-theoretic intersection of $U$ and $V$ is then the fibered product $U \times_{\A^n_k} V$. However, this thing is not a subvariety in general, for example it is not always reduced\footnote{take $U = V(y)$ and $V = V(y - x^2)$ inside $\A^2$ for example.}. How can we properly understand intersections, especially when they are not transversal ?
+Let $k$ be an algebraically closed field, and $U$, $V$ be subvarieties (say, reduced, of finite type and maybe integral) of the affine space $\A^n_k$.
+The scheme-theoretic intersection of $U$ and $V$ is then the fibered product $U \times_{\A^n_k} V$.
+However, this thing is not a subvariety in general, for example it is not always reduced\footnote{take $U = V(y)$ and $V = V(y - x^2)$ inside $\A^2$ for example.}.
+How can we properly understand intersections, especially when they are not transversal ?
 
-Let $W$ be an irreducible component of $U \cap V$ and $A$ be the local ring of $\A^n$ at the generic point $\eta_W$. Serre's intersection formula gives the correct intersection multiplicity, if we take into account higher Tor groups :
-$$\chi^A(A/\p_U, A/\p_V) = \sum (-1)^i \ell_A(\Tor^A_i(A/\p_U, A/\p_V))$$
+Let $W$ be an irreducible component of $U \cap V$ and $A$ be the local ring of $\A^n$ at the generic point $\eta_W$.
+Serre's intersection formula gives the correct intersection multiplicity, if we take into account higher Tor groups :
+\[
+    \chi^A(A/\p_U, A/\p_V) = \sum (-1)^i \ell_A(\Tor^A_i(A/\p_U, A/\p_V))
+\]
 where $\Tor^A_i(A/\p_U, A/\p_V) = H_i(A/\p_U \otimes_A^{\L} A/\p_V)$ is the derived tensor product.
 
-As a matter of fact, the higher Tor terms are useless for curves, since the usual tensor product already captures all the subtleties of the intersection. In higher dimension however, it is not enough and the higher correction terms are important.
+As a matter of fact, the higher Tor terms are useless for curves, since the usual tensor product already captures all the subtleties of the intersection.
+In higher dimension however, it is not enough and the higher correction terms are important.
 
 \begin{example}
     Even the simplest examples can already show that the usual tensor product does not retain enough information : the intersection between the union of two planes and another plane in four-dimensional space needs a correction term.
 
-    Let $U = V(x_1x_3, x_1x_4, x_2x_3, x_2x_4) = V(x_1,x_2) \cup V(x_3, x_4)$ and $V = V(x_1 - x_3, x_2 - x_4)$ inside $\A^4_k$. Then set-theoretically, the intersection $U \cap V$ consists of one rational point $P = (0, 0, 0, 0)$. Let us compute the correct intersection inside the Chow ring. Let $U_1 = V(x_1, x_2)$ and $U_2 = V(x_3, x_4)$ such that $U = U_1 \cup U_2$ :
-    $$[V] \cdot [U] = [V] \cdot [U_1] + [V] \cdot [U_2] = 1 + 1 = 2$$
+    Let $U = V(x_1x_3, x_1x_4, x_2x_3, x_2x_4) = V(x_1,x_2) \cup V(x_3, x_4)$ and $V = V(x_1 - x_3, x_2 - x_4)$ inside $\A^4_k$.
+    Then set-theoretically, the intersection $U \cap V$ consists of one rational point $P = (0, 0, 0, 0)$.
+    Let us compute the correct intersection inside the Chow ring.
+    Let $U_1 = V(x_1, x_2)$ and $U_2 = V(x_3, x_4)$ such that $U = U_1 \cup U_2$ :
+    \[
+        [V] \cdot [U] = [V] \cdot [U_1] + [V] \cdot [U_2] = 1 + 1 = 2
+    \]
     since the two intersections $V \cap U_1$ and $V \cap U_2$ are done transversely.
 
-    What does the tensor product see of this intersection ? Let us compute it :
-    $$\dim_k \frac{k[x_1, x_2, x_3, x_4]_{(P)}}{(x_1-x_3, x_2-x_4, x_1x_3, x_1x_4, x_2x_3, x_2x_4)} = \dim_k \frac{k[x, y]_{(0, 0)}}{(x^2, xy, y^2)} = 3.$$
+    What does the tensor product see of this intersection ?
+    Let us compute it :
+    \[
+        \dim_k \frac{k[x_1, x_2, x_3, x_4]_{(P)}}{(x_1-x_3, x_2-x_4, x_1x_3, x_1x_4, x_2x_3, x_2x_4)} = \dim_k \frac{k[x, y]_{(0, 0)}}{(x^2, xy, y^2)} = 3.
+    \]
     So we get the wrong intersection number if we don't account for the fact that :
-    $$\dim_k \Tor^{k[x_1, x_2, x_3, x_4]_{(P)}}_1\left(\frac{k[x_1, x_2, x_3, x_4]_{(P)}}{(x_1 - x_3, x_2 - x_4)}, \frac{k[x_1, x_2, x_3, x_4]_{(P)}}{(x_1x_3, x_1x_4, x_2x_3, x_2x_4)}\right) = 1.$$
+    \[
+        \dim_k \Tor^{k[x_1, x_2, x_3, x_4]_{(P)}}_1\left(\frac{k[x_1, x_2, x_3, x_4]_{(P)}}{(x_1 - x_3, x_2 - x_4)}, \frac{k[x_1, x_2, x_3, x_4]_{(P)}}{(x_1x_3, x_1x_4, x_2x_3, x_2x_4)}\right) = 1.
+    \]
     With this and the vanishing of the higher Tor groups, the Serre intersection formula gives the correct intersection number of $3 - 1 = 2$.
 \end{example}
 
-What lesson can we learn from this formula and this example ? In essence, we understand that the tensor product $A/\p_U \otimes_A A/\p_V$ on its own does not know everything that happens at the intersection, and in particular that it is the wrong object to model the intersection. In particular, the fibered product $U \times_{\A^n} V$ is also the wrong geometric object.
+What lesson can we learn from this formula and this example ?
+In essence, we understand that the tensor product $A/\p_U \otimes_A A/\p_V$ on its own does not know everything that happens at the intersection, and in particular that it is the wrong object to model the intersection.
+In particular, the fibered product $U \times_{\A^n} V$ is also the wrong geometric object.
 
-The Serre formula really tells us that the correct object that should represent the intersection is the \emph{derived} tensor product $A/\p_U \otimes_A^{\L} A/\p_V$. Since it is not a ring, it doesn't give us a scheme : we have to enlarge our framework.
+The Serre formula really tells us that the correct object that should represent the intersection is the \emph{derived} tensor product $A/\p_U \otimes_A^{\L} A/\p_V$.
+Since it is not a ring, it doesn't give us a scheme : we have to enlarge our framework.
 
 Recall that a scheme $X$ can be seen as a functor $X : \CAlg \to \Set$ on commutative rings, that locally looks like a representable functor $\Spec(A)$, that is a sheaf for the big Zariski site, and whose transition maps are sufficiently geometric.
 
 To correctly understand intersection, one needs to enlarge $\CAlg$ to a suitable notion of \emph{derived} rings, at least such that derived tensor products $A \otimes^{\L} B$ are such objects.
 
-Something else has to be changed, and it is the target category $\Set$ (for multiple reasons). The kind of functors that geometers are usually interested in are of the following form, whose values are sets of isomorphism classes of families of geometric objects :
-$$A \in \CAlg_k \mapsto \{[X_t \mid t \in \Spec(A)]\}$$
-where $X_t$ is a specified kind of geometric object defined over $k(t)$. However, those functors do not locally look like $\Spec(A)$, nor are they Zariski sheaves ! Most of the time, automorphisms come into play and make such a moduli functor locally look like a quotient of a scheme by a group action. This is absolutely not a scheme in general.
+Something else has to be changed, and it is the target category $\Set$ (for multiple reasons).
+The kind of functors that geometers are usually interested in are of the following form, whose values are sets of isomorphism classes of families of geometric objects :
+\[
+    A \in \CAlg_k \mapsto \{[X_t \mid t \in \Spec(A)]\}
+\]
+where $X_t$ is a specified kind of geometric object defined over $k(t)$.
+However, those functors do not locally look like $\Spec(A)$, nor are they Zariski sheaves !
+Most of the time, automorphisms come into play and make such a moduli functor locally look like a quotient of a scheme by a group action.
+This is absolutely not a scheme in general.
 
-The way to correct this is to remember the geometric objects and not just their isomorphism classes, and also keep track of the action of the automorphism group. What we get is not a set anymore, but a groupoid.
+The way to correct this is to remember the geometric objects and not just their isomorphism classes, and also keep track of the action of the automorphism group.
+What we get is not a set anymore, but a groupoid.
 
-Replacing $\Set$ by $\Grpd$ yields the notion of a stack. Why not replace it by $\Cat$ ? To keep the geometric intuition, the best idea is to instead use the $\infty$-category $\Spc$ of \emph{spaces}.
+Replacing $\Set$ by $\Grpd$ yields the notion of a stack.
+Why not replace it by $\Cat$ ? To keep the geometric intuition, the best idea is to instead use the $\infty$-category $\Spc$ of \emph{spaces}.
 
 \section{A brief introduction to $\infty$-categories}
 
 \subsection{Simplicial sets}
 
-Let $\Delta$ be the category of finite ordered sets, together with order-preserving maps. Denoting by $[i]$ the object ${0 < 1 < \dots < i}$, we then have :
-$$\Hom_{\Delta}([i], [j]) = \{f : \{0, \dots, i\} \to \{0, \dots, j\} \mid f \text{ preserves the order}\}.$$
+Let $\Delta$ be the category of finite ordered sets, together with order-preserving maps.
+Denoting by $[i]$ the object ${0 < 1 < \dots < i}$, we then have :
+\[
+    \Hom_{\Delta}([i], [j]) = \{f : \{0, \dots, i\} \to \{0, \dots, j\} \mid f \text{ preserves the order}\}.
+\]
 
 The category of simplicial sets is then defined as $\sSet = \Fun(\Delta^{\op}, \Set)$. In other words, a simplicial set $X$ is a collection of sets $X_n = X([n])$ for each $n \geq 0$, together with a transition map $\alpha^* : X_n \to X_m$ for every order-preserving map $\alpha : [m] \to [n]$.
 
 \begin{remark}
-    Since such an $\alpha$ can be epi-mono factorized, it is enough to remember the action on $X$ of the specific \emph{face} maps $\delta_n^i : [n-1] \hookrightarrow [n]$ skipping $i$, and the \emph{degeneracy} maps $\sigma_n^i : [n+1] \twoheadrightarrow [n]$ doubling $i$. In this regard, a simplicial set is usually depicted as a diagram :
+    Since such an $\alpha$ can be epi-mono factorized, it is enough to remember the action on $X$ of the specific \emph{face} maps $\delta_n^i : [n-1] \hookrightarrow [n]$ skipping $i$, and the \emph{degeneracy} maps $\sigma_n^i : [n+1] \twoheadrightarrow [n]$ doubling $i$.
+    In this regard, a simplicial set is usually depicted as a diagram :
     % https://q.uiver.app/#q=WzAsMyxbMiwwLCJYXzAiXSxbMSwwLCJYXzEiXSxbMCwwLCJcXGNkb3RzIl0sWzEsMCwiIiwwLHsib2Zmc2V0IjotMn1dLFswLDFdLFsxLDAsIiIsMSx7Im9mZnNldCI6Mn1dLFsyLDFdLFsxLDIsIiIsMSx7Im9mZnNldCI6LTJ9XSxbMiwxLCIiLDEseyJvZmZzZXQiOjR9XSxbMSwyLCIiLDEseyJvZmZzZXQiOjJ9XSxbMiwxLCIiLDEseyJvZmZzZXQiOi00fV1d
     \[\begin{tikzcd}
         \cdots & {X_1} & {X_0}
@@ -133,17 +170,23 @@ The category of simplicial sets is then defined as $\sSet = \Fun(\Delta^{\op}, \
     \end{tikzcd}\]
 \end{remark}
 
-Let $\Delta^n = \Hom(-, [n]) \in \sSet$ be the representable \emph{$n$-simplex}. Then by Yoneda, an element of $X_n$ is equivalently a morphism of simplicial sets $\Delta^n \to X$.
+Let $\Delta^n = \Hom(-, [n]) \in \sSet$ be the representable \emph{$n$-simplex}.
+Then by Yoneda, an element of $X_n$ is equivalently a morphism of simplicial sets $\Delta^n \to X$.
 
 The boundary $\partial \Delta^n \hookrightarrow \Delta^n$ is defined as the union of the faces $\partial^k \Delta^n$, images of $(\delta_n^k)^*$.
 
 For every $k \leqslant n$, define the \emph{$k$-th horn} $\Lambda_k^n \subset \Delta^n$ to be the union of all the $(n-1)$-faces except the $k$-th one :
-$$\Lambda_k^n = \bigcup_{i \neq k} \partial^i \Delta^n.$$
+\[
+    \Lambda_k^n = \bigcup_{i \neq k} \partial^i \Delta^n.
+\]
 
-If $C \in \Cat$ is a category, one can see it as a simplicial set via its \emph{nerve} : $\N(C)$ is the simplicial set defined by $\N(C)_n = \Fun([n], C)$, where $[n]$ is seen as a category with its ordered structure. An $n$-simplex is then a string of $n$ composable morphisms in $C$. The face maps compose successive morphisms, and the degeneracies add identity morphisms.
+If $C \in \Cat$ is a category, one can see it as a simplicial set via its \emph{nerve} : $\N(C)$ is the simplicial set defined by $\N(C)_n = \Fun([n], C)$, where $[n]$ is seen as a category with its ordered structure.
+An $n$-simplex is then a string of $n$ composable morphisms in $C$.
+The face maps compose successive morphisms, and the degeneracies add identity morphisms.
 
 \begin{remark}
-    Every morphism of simplicial sets $\Lambda_1^2 \to \N(C)$ can be extended in a unique way to $\Delta^2$, because the third face has to be the composition of the other two. However, this is not the case for $\Lambda_0^2$ and $\Lambda_2^2$, except when $C$ is a groupoid.
+    Every morphism of simplicial sets $\Lambda_1^2 \to \N(C)$ can be extended in a unique way to $\Delta^2$, because the third face has to be the composition of the other two.
+    However, this is not the case for $\Lambda_0^2$ and $\Lambda_2^2$, except when $C$ is a groupoid.
 \end{remark}
 
 On the other hands, simplicial sets coming from topological spaces (via the singular construction) have the property that \emph{all} horns can be extended, albeit not in a unique way :
@@ -166,27 +209,35 @@ In other words, there is a diagram
 	\arrow[from=1-2, to=2-2]
 	\arrow[from=2-1, to=2-2]
 \end{tikzcd}\]
-waiting to be completed to a square. The notion of $\infty$-category is the relaxation of both "all inner horns can be filled uniquely" and "all horns can be filled" into "all inner horns can be filled", so that both categories \emph{and} Kan complexes (or CW-complexes) can be seen as the same kind of object.
+waiting to be completed to a square.
+The notion of $\infty$-category is the relaxation of both \enquote{all inner horns can be filled uniquely} and \enquote{all horns can be filled} into \enquote{all inner horns can be filled}, so that both categories \emph{and} Kan complexes (or CW-complexes) can be seen as the same kind of object.
 
 \begin{definition}
     A \emph{weak Kan complex} is a simplicial set $X$ such that for every $n \geq 2$ and $0 < k < n$, the restriction map
-    $$\Hom_{\sSet}(\Delta^n, X) \to \Hom_{\sSet}(\Lambda_k^n, X)$$
+    \[
+        \Hom_{\sSet}(\Delta^n, X) \to \Hom_{\sSet}(\Lambda_k^n, X)
+    \]
     is surjective.
 \end{definition}
 
-A theorem of Joyal states that $X$ is a Kan complex if and only if it is an $\infty$-groupoid, i.e. every "morphism" ($1$-simplex) is an "isomorphism" (whatever this means). This is the good notion of spaces that will be used later.
+A theorem of Joyal states that $X$ is a Kan complex if and only if it is an $\infty$-groupoid, i.e. every \enquote{morphism} ($1$-simplex) is an \enquote{isomorphism} (whatever this means).
+This is the good notion of spaces that will be used later.
 
 \begin{definition}
     An \emph{$\infty$-category} is a weak Kan complex.
 \end{definition}
 
-The reason to use two different terms to denote the same object is both historical and contextual. A good theory of higher categories (categories together with $2$-morphisms between morphisms, $3$-morphisms between $2$-morphisms, and so on) had been sought for a long time, especially since the higher coherence axioms tend to take exponentially many pages to define. Multiple models for $\infty$-category theory were proposed, and today thanks to the work of Lurie, it is the weak Kan complex model that is being used everywhere. Also, the term \emph{weak Kan complex} can be used to emphasize the simplicial nature of the object, whereas the term \emph{$\infty$-category} is used as a way to forget the exact model in favor of the general higher categorical framework that is needed in practice.
+The reason to use two different terms to denote the same object is both historical and contextual.
+A good theory of higher categories (categories together with $2$-morphisms between morphisms, $3$-morphisms between $2$-morphisms, and so on) had been sought for a long time, especially since the higher coherence axioms tend to take exponentially many pages to define.
+Multiple models for $\infty$-category theory were proposed, and today thanks to the work of Lurie (mainly), it is the weak Kan complex model that is being used everywhere.
+Also, the term \emph{weak Kan complex} can be used to emphasize the simplicial nature of the object, whereas the term \emph{$\infty$-category} is used as a way to forget the exact model in favor of the general higher categorical framework that is needed in practice.
 
 \begin{definition}
     An \emph{$\infty$-functor} (or just \emph{functor}) between $\infty$-categories is a morphism of simplicial sets.
 \end{definition}
 
-Let $X$ be an $\infty$-category and $x, y \in X$ be two objects (understand : let $x, y \in X_0$ be two $0$-simplices). Then the \emph{mapping space} $\Map_X(x, y)$ is defined as the following pullback in $\sSet$ :
+Let $X$ be an $\infty$-category and $x, y \in X$ be two objects (understand : let $x, y \in X_0$ be two $0$-simplices).
+Then the \emph{mapping space} $\Map_X(x, y)$ is defined as the following pullback in $\sSet$ :
 % https://q.uiver.app/#q=WzAsNCxbMCwxLCJcXERlbHRhXjAiXSxbMSwxLCJYXFx0aW1lcyBYIl0sWzEsMCwiXFxpSG9tKFxcRGVsdGFeMSwgWCkiXSxbMCwwLCJcXE1hcF9YKHgsIHkpIl0sWzIsMSwiKHMsIHQpIl0sWzAsMSwiKHgsIHkpIiwyXSxbMywyXSxbMywwXSxbMywxLCIiLDEseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XV0=
 \[\begin{tikzcd}
 	{\Map_X(x, y)} & {\iHom(\Delta^1, X)} \\
@@ -204,9 +255,13 @@ Also, if $\C$ and $\D$ are $\infty$-categories, then $\Fun(\C, \D)$ (defined as 
 
 \subsection{Homotopy category}
 
-The nerve functor $N : \Cat \to \sSet$ is fully faithful (so that there is no harm in seeing a category as an $\infty$-category), and the image is the collection of $\infty$-categories for which composition of morphisms is uniquely defined. This functor has a left adjoint
-$$\h : \sSet \to \Cat$$
-which is easy to describe. An object of $\h X$ is simply a $0$-simplex of $X$ (an element of $X_0$). Morphisms between objects in $\h X$ are homotopy classes of maps in $X$.
+The nerve functor $N : \Cat \to \sSet$ is fully faithful (so that there is no harm in seeing a category as an $\infty$-category), and the image is the collection of $\infty$-categories for which composition of morphisms is uniquely defined.
+This functor has a left adjoint
+\[
+    \h : \sSet \to \Cat
+\]
+which is easy to describe.
+An object of $\h X$ is simply a $0$-simplex of $X$ (an element of $X_0$). Morphisms between objects in $\h X$ are homotopy classes of maps in $X$.
 
 \begin{definition}
     Let $\C \in \Catinf$ be an $\infty$-category and $f : x \to y$ a morphism in $\C$. It is an \emph{equivalence} if for every $n \geq 2$, there is a dotted extension arrow in every diagram of the form :
@@ -234,15 +289,21 @@ A theorem of Joyal states that this is equivalent to $\h f$ being an isomorphism
 
 \subsection{How to build an $\infty$-category from a model category}
 
-Let $\M = (C, W, \Cof, \Fib)$ be a model category. In particular, one should have two examples in mind :
+Let $\M = (C, W, \Cof, \Fib)$ be a model category.
+In particular, one should have two examples in mind :
 \begin{itemize}
     \item $C = \mathrm{Ch}(R)_{\geqslant 0}$ the category of bounded below chain complexes of modules over a ring $R$, with $W$ the class of quasi-isomorphisms and $\Cof$ the class of split monomorphisms with projective cokernel ;
     \item $C = \sSet$ the category of simplicial sets, with $W$ the class of weak homotopy equivalences and $\Cof$ the class of levelwise monomorphisms.
 \end{itemize}
 
-One can construct the subcategory $\M^{\circ}$ of fibrant-cofibrant objects (it works out much nicer when $\M$ is a simplicial or combinatorial model category). In the examples above, they are the bounded below complexes of projectives, or the Kan complexes. One can then construct the Dwyer-Kan localization $\mathrm{L}_{\mathrm{DK}}(\M^{\circ}, W)$ which is a simplicial category, and take its homotopy coherent nerve $[n] \mapsto \Hom_{\Cat_{\Delta}}(\mathfrak{C}[\Delta^n], \mathrm{L}_{\mathrm{DK}}(\M^{\circ}, W))$ to obtain an $\infty$-category $\infty(\M)$.
+One can construct the subcategory $\M^{\circ}$ of fibrant-cofibrant objects (it works out much nicer when $\M$ is a simplicial or combinatorial model category).
+In the examples above, they are the bounded below complexes of projectives, or the Kan complexes.
+One can then construct the Dwyer-Kan localization $\mathrm{L}_{\mathrm{DK}}(\M^{\circ}, W)$ which is a simplicial category, and take its homotopy coherent nerve $[n] \mapsto \Hom_{\Cat_{\Delta}}(\mathfrak{C}[\Delta^n], \mathrm{L}_{\mathrm{DK}}(\M^{\circ}, W))$ to obtain an $\infty$-category $\infty(\M)$.
 
-We only care about one example here, and will never use this rather technical definition. Kan complexes are the fibrant (automatically cofibrant) objects in $\sSet$ with its model structure described above. Then define the \emph{$\infty$-category of spaces} as $\Spc = \infty(\Kan)$\footnote{The localization and coherent nerve processes do not fundamentally alter the objects, so that an object of $\Spc$ is still just a Kan complex (aka an $\infty$-groupoid). The purpose of this whole construction is mainly to construct the higher simplices and the $\infty$-category $\Spc$ as a whole.}.
+We only care about one example here, and will never use this rather technical definition.
+Kan complexes are the fibrant (automatically cofibrant) objects in $\sSet$ with its model structure described above.
+Then define the \emph{$\infty$-category of spaces} as $\Spc = \infty(\Kan)$\footnote{The localization and coherent nerve processes do not fundamentally alter the objects, so that an object of $\Spc$ is still just a Kan complex (aka an $\infty$-groupoid).
+The purpose of this whole construction is mainly to construct the higher simplices and the $\infty$-category $\Spc$ as a whole.}.
 
 \subsection{Joins and slices}
 
@@ -265,28 +326,42 @@ For example, $C \ast \Delta^0$ formally adds a final object to $C$ and $\Delta^0
 The next definition mimicks the previous one for simplicial sets :
 \begin{definition}
     Let $X, Y \in \sSet$. For every finite linearly ordered set $J$, define :
-    $$\Cut(J) = \left\{(J_1, J_2) \middle| \begin{aligned}J &= J_1 \amalg J_2,\\x &< y \text{ for all }x \in J_1, y \in J_2\end{aligned}\right\}$$
+    \[
+        \Cut(J) = \left\{(J_1, J_2) \middle| \begin{aligned}J &= J_1 \amalg J_2,\\x &< y \text{ for all }x \in J_1, y \in J_2\end{aligned}\right\}
+    \]
     and then
-    $$(X \ast Y)(J) = \coprod_{(J_1, J_2) \in \Cut(J)} X(J_1) \times Y(J_2).$$
+    \[
+        (X \ast Y)(J) = \coprod_{(J_1, J_2) \in \Cut(J)} X(J_1) \times Y(J_2).
+    \]
     For every $\alpha : J \to J'$, a cut of $J'$ induces in the obvious way a cut of $J$ so there is a well-defined transition map $\alpha^*$.
 \end{definition}
 
 \begin{remark}
     This is compatible with the definition for 1-categories, as :
-    $$\N(C \ast D) = \N(C) \ast \N(D).$$
+    \[
+        \N(C \ast D) = \N(C) \ast \N(D).
+    \]
     In particular, $\Delta^n \ast \Delta^m = \Delta^{n+m+1}$.
     Also, if $\C$ and $\D$ are $\infty$-categories then $\C \ast \D$ is also an $\infty$-category.
 \end{remark}
 
 Notice that $(X \ast Y)_n = X_n \amalg Y_n \amalg \coprod_{i + j = n - 1} X_i \ast Y_j$, so that $X \ast Y$ receives a map both from $X$ and from $Y$. Therefore there are functors :
-$$X \ast - : \sSet \to \sSet_{X/}$$
+\[
+    X \ast - : \sSet \to \sSet_{X/}
+\]
 and
-$$- \ast Y : \sSet \to \sSet_{Y/}.$$
+\[
+    - \ast Y : \sSet \to \sSet_{Y/}.
+\]
 
 \paragraph{Fact} For every simplicial set $S$, the functor $S \ast -$ admits a right adjoint $\sSet_{S/} \to \sSet$ defined by sending $p : S \to X$ to $X_{p/}$ with
-$$(X_{p/})_n = \Hom_p(S \ast \Delta^n, X).$$
+\[
+    (X_{p/})_n = \Hom_p(S \ast \Delta^n, X).
+\]
 Similarly, $- \ast S$ admits a right adjoint sending $p$ to $X_{/p}$, with
-$$(X_{/p})_n = \Hom_p(\Delta^n \ast S, X).$$
+\[
+    (X_{/p})_n = \Hom_p(\Delta^n \ast S, X).
+\]
 
 In particular if $p : \Delta^n \to X$ classifies an $n$-simplex $\sigma \in X_n$, write $X_{\sigma/}$ and $X_{/\sigma}$ instead.
 
@@ -311,13 +386,16 @@ For a simplicial set $K$, also denote by $K^{\triangleright}$ the cocone $K \ast
 \end{definition}
 
 \begin{remark}
-    A colimit for $F$ is an object of $\C_{F/}$, and can therefore be identified as a map $\overline{F} : \J^{\triangleright} \to \C$. In particular\footnote{and this makes sense, even for 1-categories, since the legs of the (co)cone are maps that have to be considered in the data of the (co)limit}, the colimit \emph{remembers} the whole diagram, not just the object - which is the value of $\overline{F}$ on the added point of $\J^{\triangleright}$, and which is also called the colimit.
+    A colimit for $F$ is an object of $\C_{F/}$, and can therefore be identified as a map $\overline{F} : \J^{\triangleright} \to \C$.
+    In particular\footnote{and this makes sense, even for 1-categories, since the legs of the (co)cone are maps that have to be considered in the data of the (co)limit}, the colimit \emph{remembers} the whole diagram, not just the object - which is the value of $\overline{F}$ on the added point of $\J^{\triangleright}$, and which is also called the colimit.
 \end{remark}
 
 One can of course dualize everything to get the notion of a limit.
 
 \begin{theorem}[Rectification theorem, Lurie]
-    Let $J$ be a fibrant simplicial category and $\M$ be a combinatorial simplicial model category. Let $F : J \to \M$ be a simplicial functor and $\eta : F \to C$ be a natural transformation, $C$ being constant to some $c \in \M$. Then the following are equivalent :
+    Let $J$ be a fibrant simplicial category and $\M$ be a combinatorial simplicial model category.
+    Let $F : J \to \M$ be a simplicial functor and $\eta : F \to C$ be a natural transformation, $C$ being constant to some $c \in \M$.
+    Then the following are equivalent :
     \begin{enumerate}
         \item $\eta$ exhibits $c$ as a homotopy colimit of $F$ ;
         \item The image of $\eta$ in $\infty(\M)$ is an $\infty$-categorical colimit for $\infty(F)$.
@@ -331,7 +409,9 @@ This subsection is about how one can build new $\infty$-categories from old ones
 \begin{example}
     How is $\QCoh(-)$ a sheaf, or even a functor of categories on schemes ?
 
-    Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ be morphisms of schemes. Then we have a pullback functor $f^* : \QCoh(Y) \to \QCoh(X)$ and similarly for $g$. However, $f^*g^*$ and $(gf)^*$ are not equal, there is merely a natural transformation between them.
+    Let $X \xrightarrow{f} Y \xrightarrow{g} Z$ be morphisms of schemes.
+    Then we have a pullback functor $f^* : \QCoh(Y) \to \QCoh(X)$ and similarly for $g$.
+    However, $f^*g^*$ and $(gf)^*$ are not equal, there is merely a natural transformation between them.
 
     Instead of looking at such a strict definition of functoriality, why don't we look at the category $\QCoh_{\mathrm{Sch}}$ whose objects are pairs $(X, \mathcal{F})$ with $X$ a scheme and $\mathcal{F} \in \QCoh(X)$ and whose morphisms $(X', \mathcal{F}') \to (X, \mathcal{F})$ are morphisms $f : X' \to X$ together with $\phi : f^*\mathcal{F} \to \mathcal{F}'$ in $\QCoh(X')$, and its projection functor $(X, \mathcal{F}) \mapsto X$ to the category $\mathrm{Sch}$ of schemes ?
 
@@ -339,10 +419,13 @@ This subsection is about how one can build new $\infty$-categories from old ones
 \end{example}
 
 \begin{definition}
-    Let $p : C \to D$ be a functor (between 1-categories), $\overline{f} : \overline{x} \to p(y)$ be a morphism in $D$. Suppose that there is a morphism $f : x \to y$ in $C$ such that $p(x) = \overline{x}$ and $p(f) = \overline{f}$.
+    Let $p : C \to D$ be a functor (between 1-categories), $\overline{f} : \overline{x} \to p(y)$ be a morphism in $D$.
+    Suppose that there is a morphism $f : x \to y$ in $C$ such that $p(x) = \overline{x}$ and $p(f) = \overline{f}$.
 
     We say that $f$ is \emph{$p$-cartesian} if for every object $z \in C$, the canonical map
-    $$\Hom_C(z, x) \to \Hom_C(z, y) \times_{\Hom_D(p(z), p(y))} \Hom_D(p(z), \overline{x})$$
+    \[
+        \Hom_C(z, x) \to \Hom_C(z, y) \times_{\Hom_D(p(z), p(y))} \Hom_D(p(z), \overline{x})
+    \]
     is a bijection.
 
     Say that $p$ is a \emph{cartesian fibration} if every $\overline{f}$ has such a cartesian lift $f$.
@@ -352,7 +435,9 @@ For a category $C$, define $\Cart(C) = \Cat_{/C}^{\Cart}$ to be the $(2, 1)$-cat
 
 The functoriality data hidden in the cartesian fibration can be uncovered by straightening it into a functor of categories.
 \begin{theorem}[Straightening/Unstraightening, Grothendieck]
-    There is an equivalence of $(2, 1)$-categories
-    $$\Fun(C^{\op}, \Cat) \simeq \Cart(C).$$
+    There is an equivalence between $(2, 1)$-categories
+    \[
+        \Fun(C^{\op}, \Cat) \simeq \Cart(C).
+    \]
 \end{theorem}
 \end{document}
