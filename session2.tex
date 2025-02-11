@@ -9,6 +9,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 \newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{remark}{Remark}
@@ -21,13 +22,16 @@
 \newcommand{\Cart}{\operatorname{Cart}}
 \newcommand{\Cat}{\mathrm{Cat}}
 \newcommand{\Catinf}{\mathcal{C}\mathrm{at}_{\infty}}
+\newcommand{\cc}{\mathrm{cc}}
 \newcommand{\Cof}{\mathrm{Cof}}
 \newcommand{\Cut}{\operatorname{Cut}}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\E}{\mathcal{E}}
 \newcommand{\Fib}{\mathrm{Fib}}
 \newcommand{\Fun}{\operatorname{Fun}}
 \newcommand{\Grpd}{\mathrm{Grpd}}
 \newcommand{\h}{\mathrm{h}}
+\newcommand{\heart}{\heartsuit}
 \newcommand{\Hom}{\operatorname{Hom}}
 \newcommand{\iHom}{\operatorname{\underline{Hom}}}
 \newcommand{\J}{\mathcal{J}}
@@ -39,12 +43,15 @@
 \newcommand{\Ob}{\operatorname{Ob}}
 \newcommand{\op}{\mathrm{op}}
 \newcommand{\p}{\mathfrak{p}}
+\renewcommand{\P}{\mathcal{P}}
 \newcommand{\QCoh}{\operatorname{QCoh}}
 \newcommand{\Set}{\mathrm{Set}}
 \newcommand{\Spc}{\mathcal{S}\mathrm{pc}}
 \newcommand{\Spec}{\operatorname{Spec}}
 \newcommand{\sSet}{\mathrm{sSet}}
 \newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
 
 
 \title{Lecture notes in Derived Algebraic Geometry\\Session 2}
@@ -170,4 +177,256 @@ Of course, one gets the notion of a colimit by dualizing this whole section.
     \end{enumerate}
 \end{theorem}
 
+\section{Cartesian fibrations}
+
+Let $p : \X \to \Y$ be a functor of $\infty$-categories modelled by an inner fibration of simplicial sets. It means that it has the right lifting property with respect to every inner horn inclusion $\Lambda_k^n \hookrightarrow \Delta^n$ : every square of solid arrows of the following form has a dashed lift
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXExhbWJkYV9rXm4iXSxbMCwxLCJcXERlbHRhXm4iXSxbMSwwLCJcXFgiXSxbMSwxLCJcXFkiXSxbMiwzLCJwIl0sWzAsMl0sWzAsMSwiIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMSwzXSxbMSwyLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	{\Lambda_k^n} & \X \\
+	{\Delta^n} & \Y
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow["p", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+for all $0 < k < n$.
+Let $f : \Delta^1 \to \X$ be a an arrow in $\X$.
+
+\begin{definition}
+    The map $f$ is \emph{$p$-cartesian} if every diagram of solid arrows of the following form has a dashed lift :
+    % https://q.uiver.app/#q=WzAsNSxbMSwwLCJcXExhbWJkYV9uXm4iXSxbMSwxLCJcXERlbHRhXm4iXSxbMiwwLCJcXFgiXSxbMiwxLCJcXFkiXSxbMCwwLCJcXERlbHRhXjEgPSBcXERlbHRhXntuLTEsIG59Il0sWzIsMywicCJdLFsxLDNdLFswLDEsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzAsMl0sWzEsMiwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzQsMCwiIiwxLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbNCwyLCJmIiwwLHsiY3VydmUiOi0yfV1d
+    \[\begin{tikzcd}
+        {\Delta^1 = \Delta^{\{n-1, n\}}} & {\Lambda_n^n} & \X \\
+        & {\Delta^n} & \Y
+        \arrow[hook, from=1-1, to=1-2]
+        \arrow["f", curve={height=-15pt}, from=1-1, to=1-3]
+        \arrow[from=1-2, to=1-3]
+        \arrow[hook, from=1-2, to=2-2]
+        \arrow["p", from=1-3, to=2-3]
+        \arrow[dashed, from=2-2, to=1-3]
+        \arrow[from=2-2, to=2-3]
+    \end{tikzcd}\]
+    Similarly, $f$ is \emph{$p$-cocartesian} if the same condition is true with $\Delta^{\{0, 1\}} \hookrightarrow \Lambda_0^n$ instead.
+\end{definition}
+
+\begin{lemma}
+    $f$ is $p$-cartesian if and only if the map
+    \[
+        \X_{/f} \to \X_{/y} \times_{\Y_{/p(y)}} \Y_{/p(f)}
+    \]
+    is a trivial fibration of simplicial sets.
+    (A trivial fibration is a map that has the right lifting property with respect to every boundary inclusion $\partial \Delta^n \hookrightarrow \Delta^n$.)
+\end{lemma}
+
+\begin{definition}
+    A functor $p : \X \to \Y$ is a \emph{Cartesian fibration} if it is an inner fibration such that every lifting problem
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXERlbHRhXjAiXSxbMCwxLCJcXERlbHRhXjEiXSxbMSwwLCJcXFgiXSxbMSwxLCJcXFkiXSxbMiwzLCJwIl0sWzAsMl0sWzAsMSwiMSIsMl0sWzEsM10sWzEsMiwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+    \[\begin{tikzcd}
+        {\Delta^0} & \X \\
+        {\Delta^1} & \Y
+        \arrow[from=1-1, to=1-2]
+        \arrow["1"', from=1-1, to=2-1]
+        \arrow["p", from=1-2, to=2-2]
+        \arrow[dashed, from=2-1, to=1-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    has a solution $\Delta^1 \to \X$ which is $p$-cartesian.
+    Dually, $p$ is a \emph{coCartesian fibration} if it is an inner fibration such that every lifting problem
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXERlbHRhXjAiXSxbMCwxLCJcXERlbHRhXjEiXSxbMSwwLCJcXFgiXSxbMSwxLCJcXFkiXSxbMiwzLCJwIl0sWzAsMl0sWzAsMSwiMCIsMl0sWzEsM10sWzEsMiwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+    \[\begin{tikzcd}
+        {\Delta^0} & \X \\
+        {\Delta^1} & \Y
+        \arrow[from=1-1, to=1-2]
+        \arrow["0"', from=1-1, to=2-1]
+        \arrow["p", from=1-2, to=2-2]
+        \arrow[dashed, from=2-1, to=1-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    has a solution $\Delta^1 \to \X$ which is $p$-cocartesian.
+\end{definition}
+
+A Cartesian (resp. coCartesian) fibration is a tractable way of constructing a contravariant (resp. covariant) functor with values in $\infty$-categories, via the following straightening construction.
+
+Let $p : \E \to \C$ be a coCartesian fibration.
+\begin{enumerate}
+    \item For all $x \in \C$, let $\E_x$ be the fiber $\E \times_{\C} \Delta^0$ over $x$.
+    It is automatically a weak Kan complex since $p$ is an inner fibration.
+    \item Let $f : x \to y$ be a morphism in $\C$, we want to construct an associated functor $f_! : \E_x \to \E_y$.
+    Let $z \in \E_x$.
+    Since $p(z) = x$, we have a morphism $f : p(z) \to y$ in $\C$, so a square
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXERlbHRhXjAiXSxbMCwxLCJcXERlbHRhXjEiXSxbMSwwLCJcXEUiXSxbMSwxLCJcXEMiXSxbMCwxLCIwIiwyXSxbMiwzLCJwIl0sWzAsMiwieiJdLFsxLDMsImYiLDJdXQ==
+    \[\begin{tikzcd}
+        {\Delta^0} & \E \\
+        {\Delta^1} & \C
+        \arrow["z", from=1-1, to=1-2]
+        \arrow["0"', from=1-1, to=2-1]
+        \arrow["p", from=1-2, to=2-2]
+        \arrow["f"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    There \emph{exists} a $p$-cocartesian lift $\Delta^1 \to \E$, seen as a map $z \to w$ with $w \in \E_y$.
+    We want to define $f_!(z) = w$ : how ambiguous is this construction ?
+    \item Given $z' \in \E_x$ and $\alpha : z \to z'$, we can choose another $p$-cocartesian lift $z' \to w' = f_!(z')$.
+    By $p$-cocartesianity, the following diagram can be extended with a dashed arrow, giving the desired equivalence :
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJ6Il0sWzEsMSwidyciXSxbMSwwLCJ6JyJdLFswLDEsInciXSxbMCwyLCJcXGFscGhhIl0sWzIsMV0sWzAsM10sWzAsMV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+    \[\begin{tikzcd}
+        z & {z'} \\
+        w & {w'}
+        \arrow["\alpha", from=1-1, to=1-2]
+        \arrow[from=1-1, to=2-1]
+        \arrow[from=1-1, to=2-2]
+        \arrow[from=1-2, to=2-2]
+        \arrow[dashed, from=2-1, to=2-2]
+    \end{tikzcd}\]
+\end{enumerate}
+
+\begin{proposition}
+    Let $p : \E \to \C$ be a coCartesian fibration and $f : \Delta^1 \to \C$ be a map $x \to y$.
+    Then there exists a functor $\E_x \times \Delta^1 \to \E$ such that
+    \begin{enumerate}
+        \item For every $z \in \E_x$, restricting to $z$ gives an arrow $\{z\} \times \Delta^1 \to \E$ of the form $\beta : z \to z'$ which is a $p$-cocartesian lift of $f$ ;
+        \item The restriction to $\E_x \times \{1\}$ yields the desired functor $f_! : \E_x \to \E_y$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}[Ideas of the proof]
+    Let $\Fun_f(\Delta^1, \E) = \{g : \Delta^1 \to \E \mid p \circ g \simeq f\}$ and $\Fun_f^{\cc}(\Delta^1, \E)$ be the subcategory on the $p$-cocartesian lifts.
+    There is a functor $\Fun_f^{\cc}(\Delta^1, \E) \to \E_x$ taking the source, and it is a trivial fibration.
+    Choose a section $\E_x \to \Fun_f^{\cc}(\Delta^1, \E)$ : by adjunction, it gives the functor announced in the statement.
+    Composing this section with the target functor yields the desired functor :
+    \[
+        f_! : \E_x \to \Fun_f^{\cc}(\Delta^1, \E) \xrightarrow{\text{target}} \E_y.
+    \]
+\end{proof}
+
+More generally, for every simplex $\sigma : \Delta^n \to \C$ one can define $\Fun_{\sigma}^{\cc}(\Delta^n, \E)$, and then a functor
+\[
+    \vartheta(p) : \Delta^{\op}_{/\C} \to \sSet
+\]
+associating to $\sigma : \Delta^n \to \C$ the $\infty$-category $\Fun_{\sigma}^{\cc}(\Delta^n, \E)$.
+Denoting by $W_{\C}$ the set of morphisms $f : [n] \to [m]$ in $\Delta_{\/C}$ such that $f(0) = 0$, one can show that $\vartheta(p)$ sends its elements to Joyal equivalences.
+
+\begin{corollary}
+    For every coCartesian fibration $p : \E \to \C$, there is a functor
+    \[
+        \Theta(p) : \N(\Delta^{\op}_{/\C})[W_{\C}^{-1}] \to \Catinf
+    \]
+    and the map from the source category to $\C$ taking the initial vertex is a Joyal equivalence, whence a functor $\C \to \Catinf$.
+\end{corollary}
+This is the straightening of $p$.
+We finally obtain the un/straightening theorem that was needed to construct functors with values in $\infty$-categories.
+\begin{theorem}
+    For every $\infty$-category $\C$, there are equivalences of $\infty$-categories
+    \[
+        \Fun(\C, \Catinf) \simeq \operatorname{CoCart}(\C)
+    \]
+    and
+    \[
+        \Fun(\C^{\op}, \Catinf) \simeq \operatorname{Cart}(\C).
+    \]
+\end{theorem}
+
+Cartesian fibrations also give a way to compute limits of diagrams of $\infty$-categories.
+\begin{theorem}
+    Let $F : \J \to \Catinf$ be an $\infty$-functor, i.e. a diagram of $\infty$-categories.
+    Let $\int F \to \J^{\op}$ be the associated Cartesian fibration.
+    Then the limit of $F$ exists and can be computed as the $\infty$-category of cartesian sections (that is, functors that send edges to cartesian maps) :
+    \[
+        \lim_{\J} F \simeq \Fun_{/\J^{\op}}^{\mathrm{Cart}}(\J^{\op}, \int F).
+    \]
+\end{theorem}
+
+\section{Cocompletions}
+
+\subsection{The 1-categorical story}
+
+Let $C$ be an ordinary 1-category.
+There is a Yoneda embedding $C \to \P(C)^{\heart}$ into the 1-category of presheaves of sets on $C$.
+It has the universal property that $\Fun'(\P(C)^{\heart}, D) \simeq \Fun(C, D)$ for every cocomplete category $D$, the notation $\Fun'$ denoting the subcategory of functors that preserve colimits.
+
+\begin{exercise}
+    Show that the Yoneda functor does not preserve coproducts.
+\end{exercise}
+
+This is a problem, but it can be corrected by considering sifted colimits.
+\begin{definition}
+    A 1-category $C$ is \emph{1-sifted} if it is not empty and if $C$-indexed colimits in $\Set$ commute with finite products.
+\end{definition}
+
+\begin{exercise}
+    Show that $C$ is 1-sifted if and only if it is not empty and the diagonal map $\Delta : C \to C \times C$ is cofinal.
+\end{exercise}
+
+\begin{example}
+    The category $\Delta^{\op}_{\leqslant 1}$ modelling reflexive coequalizers is 1-sifted.
+    Note that the category $\{[1] \rightrightarrows [0]\}$ modelling coequalizers is not 1-sifted.
+\end{example}
+
+\begin{definition}
+    Let $C$ be a 1-category with finite coproducts.
+    Define $\P_{\Sigma}(C)^{\heart}$ as the full subcategory of $\P(C)^{\heart}$ on functors preserving finite coproducts (since they are contravariant, it means that they map finite sums to products).
+\end{definition}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item The inclusion $\P_{\Sigma}(C)^{\heart} \hookrightarrow \P(C)^{\heart}$ preserves 1-sifted colimits and has a left adjoint.
+        In particular, $\P_{\Sigma}(C)^{\heart}$ is a reflexive localization of $\P(C)^{\heart}$, so it is presentable ;
+        \item The Yoneda embedding $j : C \to \P(C)^{\heart}$ lands in $\P_{\Sigma}(C)^{\heart}$ ;
+        \item $j : C \to \P_{\Sigma}(C)^{\heart}$ preserves finite coproducts ;
+        \item A presheaf $X$ is in $\P_{\Sigma}(C)^{\heart}$ if and only if it can be written as a reflexive coequalizer of filtered colimits of representables.
+    \end{enumerate}
+    Denoting by $\Fun''$ the category of sifted-colimit preserving functors and by $\Fun^{\amalg}$ the category of coproduct-preserving functors, we also have the universal properties
+    \[
+        \Fun''(\P_{\Sigma}(C)^{\heart}, D) \simeq \Fun(C, D)
+    \]
+    and
+    \[
+        \Fun^{\amalg}(C, D) \simeq \Fun'(\P_{\Sigma}(C)^{\heart}, D)
+    \]
+    for every category $D$ with colimits.
+\end{proposition}
+How does the story extend to $\infty$-categories ?
+
+\subsection{The $\infty$-categorical version}
+
+Let $\C$ be a an $\infty$-category and $\P(\C) = \Fun(\C^{\op}, \Spc)$ be its presheaf $\infty$-category.
+Then $\P(\C)$ has all colimits, and there is again an equivalence
+\[
+    \Fun(\C, \D) \simeq \Fun'(\P(\C), \D)
+\]
+for cocomplete $\infty$-categories $\D$.
+
+\begin{definition}
+    An $\infty$-category $K \in \Catinf$ is \emph{sifted} if $K$-indexed colimits in $\Spc$ commute with finite products.
+\end{definition}
+
+\begin{example}
+    $\Delta^{\op}$ is sifted.
+    Its diagonal is cofinal ; it is well-known that if $X_{\bullet, \bullet}$ is a bisimplicial set then its geometric realization can be computed as the colimit of the diagonal $X_{n, n}$.
+    On the other hand, the 1-sifted category $\Delta^{\op}_{\leqslant 1}$ is not sifted.
+\end{example}
+
+\begin{definition}
+    Let $\C$ be an $\infty$-category with finite coproducts.
+    Then $\P_{\Sigma}(\C)$ is defined as the full subcategory of $\P(\C)$ on functors that preserve products.
+\end{definition}
+
+The same proposition as in the 1-categorical picture holds.
+\begin{proposition}
+    \begin{enumerate}
+        \item The inclusion $\P_{\Sigma}(\C) \hookrightarrow \P(\C)$ preserves sifted colimits and has a left adjoint.
+        In particular, $\P_{\Sigma}(\C)$ is presentable, and it has limits and colimits ;
+        \item The Yoneda embedding $j : \C \to \P(\C)$ lands in $\P_{\Sigma}(\C)$ ;
+        \item $j : \C \to \P_{\Sigma}(\C)$ preserves finite coproducts ;
+        \item A presheaf $X$ is in $\P_{\Sigma}(\C)$ if and only if it is the geometric realization of filtered colimits of representables.
+    \end{enumerate}
+    Also, we have the universal properties
+    \[
+        \Fun''(\P_{\Sigma}(\C), \D) \simeq \Fun(\C, \D)
+    \]
+    and
+    \[
+        \Fun^{\amalg}(\C, \D) \simeq \Fun'(\P_{\Sigma}(\C), \D).
+    \]
+    In particular, any functor $\C \to \D$ can be extended to a sifted-colimit-preserving functor $\P_{\Sigma}(\C) \to \D$.
+\end{proposition}
 \end{document}
