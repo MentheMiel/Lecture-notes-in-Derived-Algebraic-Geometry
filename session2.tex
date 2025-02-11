@@ -1,0 +1,173 @@
+\documentclass[11pt]{article}
+
+\usepackage{quiver}
+\usepackage{amsmath, amsthm, mathrsfs}
+\usepackage[margin = 3cm]{geometry}
+\usepackage{enumitem}
+\usepackage{csquotes}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+
+\newcommand{\A}{\mathbf{A}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\CAlg}{\mathrm{CAlg}}
+\newcommand{\Cart}{\operatorname{Cart}}
+\newcommand{\Cat}{\mathrm{Cat}}
+\newcommand{\Catinf}{\mathcal{C}\mathrm{at}_{\infty}}
+\newcommand{\Cof}{\mathrm{Cof}}
+\newcommand{\Cut}{\operatorname{Cut}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Fib}{\mathrm{Fib}}
+\newcommand{\Fun}{\operatorname{Fun}}
+\newcommand{\Grpd}{\mathrm{Grpd}}
+\newcommand{\h}{\mathrm{h}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\iHom}{\operatorname{\underline{Hom}}}
+\newcommand{\J}{\mathcal{J}}
+\newcommand{\Kan}{\mathrm{Kan}}
+\renewcommand{\L}{\mathbb{L}}
+\newcommand{\M}{\mathscr{M}}
+\newcommand{\Map}{\operatorname{Map}}
+\newcommand{\N}{\mathrm{N}}
+\newcommand{\Ob}{\operatorname{Ob}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\p}{\mathfrak{p}}
+\newcommand{\QCoh}{\operatorname{QCoh}}
+\newcommand{\Set}{\mathrm{Set}}
+\newcommand{\Spc}{\mathcal{S}\mathrm{pc}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\sSet}{\mathrm{sSet}}
+\newcommand{\Tor}{\operatorname{Tor}}
+
+
+\title{Lecture notes in Derived Algebraic Geometry\\Session 2}
+\date{10 February 2025}
+\author{Course by F. Binda, notes by E. Hecky}
+
+
+\begin{document}
+\maketitle
+
+\section{More on limits in an $\infty$-category}
+
+There is another way to define the notion of a (co)limit in an $\infty$-category, which looks a bit more like the 1-categorical notion.
+Let $F : I \to \C$ be an element of $\Map(I, \C)$, with $I$ a simplicial set and $\C$ an $\infty$-category.
+\begin{definition}
+    A \emph{cone} over $F$ is a pair $(y, \eta)$ where $y \in \C$ and $\eta : \C_y \to F$ is a natural transformation (i.e. a map $\eta : I \times \Delta^1 \to C$ which restricts to $C_y : I \to \Delta^0 \xrightarrow{y} \C$ on $\{0\}$ and to $F$ on $\{1\}$).
+\end{definition}
+
+Let $(y, \eta)$ be a cone over $F$ and $x \in \C$.
+Letting $c : \C \to \C^I$ be the functor taking an object $z \in \C$ to the constant diagram $c_z : I \to \C$ on $z$, we can define a map :
+\[
+    \Map_{\C}(x, y) \xrightarrow{c} \Map_{\Fun(I, \C)}(c_x, c_y) \xrightarrow{\eta_*} \Map_{\Fun(I, \C)}(c_x, F)
+\]
+up to a contractible choice for the composition with $\eta$.
+
+\begin{proposition}
+    A cone $(y, \eta)$ over $F$ is a limit cone for $F$ if for all $x \in \C$, the map above is a homotopy equivalence.
+\end{proposition}
+
+\begin{example}
+    If $I$ is discrete, then $\Fun(I, \C) = \prod_I \C$.
+    A diagram $F : I \to \C$ is then a collection of objects $\{y_i\}_{i \in I}$, and a cone over $F$ is a collection of maps of the form $\{y \xrightarrow{\pi_i} y_i\}_{i \in I}$.
+    It is a limit cone if and only if $\Map(x, y) \simeq \prod_{i \in I} \Map(x, y_i)$.
+\end{example}
+
+\begin{lemma}
+    Any two limits $(y, \eta)$ and $(y', \eta')$ for $F$ are equivalent.
+\end{lemma}
+\begin{proof}
+    Since $(y', \eta')$ is a limit, we have $\Map(c_y, F) \simeq \Map(y, y')$.
+    The image of $\eta$ gives a map $f : y \to y'$ such that $\eta' \circ f \simeq \eta$.
+    Similarly, there is a map $g : y' \to y$ such that $\eta \circ g \simeq \eta'$.
+    We then get
+    \[
+        \eta \circ g \circ f \simeq \eta' \circ f \simeq \eta
+    \]
+    so $g \circ f \simeq \mathrm{id}$. Similarly, $f \circ g \simeq \mathrm{id}$.
+\end{proof}
+
+\begin{remark}
+    One can show the (much) stronger statement that the $\infty$-category of limit cones over a given functor is either empty or trivial (equivalent to $\{*\}$).
+    This means that when a diagram has a limit, then the \enquote{space} of limits is contractible, whereas the lemma only showed that it is connected.
+\end{remark}
+
+\begin{exercise}
+    Let $I = \{0 \to 1 \leftarrow 0'\}$ be the \enquote{pullback} diagram.
+    A functor $F : I \to \C$ is equivalently the data of two maps $b \xrightarrow{h} d \xleftarrow{k} c$ in $\C$.
+    Show that up to equivalence, the datum of a cone $\eta : c_a \to F$ is equivalent to the data of two morphisms $b \xleftarrow{i} a \xrightarrow{j} c$ and of a choice of equivalence $h \circ i \simeq k \circ j$.
+\end{exercise}
+
+\begin{proposition}
+    A cone $(y, \eta)$ over $F : I \to \Spc$ is a limit cone if and only if for all $x \in \Spc$, the map
+    \[
+        [x, y]_{\Spc} = \pi_0 \Map(x, y) \to [c_x, F]_{\Spc^I} = \pi_0 \Map(c_x, F)
+    \]
+    is an equivalence.
+\end{proposition}
+In other words, the fact that a cone \emph{of spaces} is a limit can be checked in the homotopy category.
+(This does not mean that the limit can be computed in the homotopy category.)
+
+\begin{exercise}
+    Check that the pullback of a diagram $b \to c \leftarrow d$ in $\Spc$ can be computed as the ordinary limit (iterated pullback) of the following diagram in $\sSet$ :
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCJiIl0sWzEsMSwiYyJdLFsyLDAsImNee1xcRGVsdGFeMX0iXSxbMywxLCJjIl0sWzQsMCwiZCJdLFswLDFdLFsyLDEsIlxcbWF0aHJte2V2fV8wIiwyXSxbMiwzLCJcXG1hdGhybXtldn1fMSJdLFs0LDNdXQ==
+    \[\begin{tikzcd}
+        b && {c^{\Delta^1}} && d \\
+        & c && c
+        \arrow[from=1-1, to=2-2]
+        \arrow["{\mathrm{ev}_0}"', from=1-3, to=2-2]
+        \arrow["{\mathrm{ev}_1}", from=1-3, to=2-4]
+        \arrow[from=1-5, to=2-4]
+    \end{tikzcd}\]
+\end{exercise}
+
+\begin{proposition}
+    Let $\C$ be a Kan-enriched category, $I$ a simplicial set and $F : I \to \N_{\Delta}(\C)$ a map to the simplicial nerve.
+    Consider the functor $\iHom_{\C}(x, -) : \C \to \sSet$ and apply the simplicial nerve functor to get a functor
+    \[
+        \N_{\Delta}(\iHom(x, -)) : \N_{\Delta}(\C) \to \Spc.
+    \]
+    Then a cone $(y, \eta)$ is a limit cone for $F$ if and only if the cone $(\iHom(x, y), \N_{\Delta}(\iHom(x, \eta)))$ is a limit in $\Spc$.
+\end{proposition}
+In other words, \enquote{the $\Map$ functor preserves limits in the second argument} in the following way :
+\[
+    \Map_{\C}(x, \lim_I F) \simeq \lim_{i \in I} \Map(x, F(i)).
+\]
+The limit on the left is performed in $\C$, whereas the one on the right is performed in the $\infty$-category of spaces $\Spc$.
+
+\begin{remark}
+    A cone for $F$ is equivalent to the datum of a map
+    \[
+        (I \times \Delta^1)/(I \times \Delta^0) \to \C
+    \]
+    where the contracted $I \times \Delta^0$ is the copy of $I$ that is located at $\{0\}$.
+    This quotient is another model for $I^{\triangleleft}$.
+\end{remark}
+
+Of course, one gets the notion of a colimit by dualizing this whole section.
+
+\begin{theorem}
+    Let $\C$ be an $\infty$-category.
+    Then the following are equivalent :
+    \begin{enumerate}
+        \item $\C$ has an initial object and pushouts ;
+        \item $\C$ has finite coproducts and coequalizers ;
+        \item $\C$ has finite limits.
+    \end{enumerate}
+    Moreover, if $\C$ has arbitrary coproducts, then the following are equivalent :
+    \begin{enumerate}
+        \item $\C$ has all colimits ;
+        \item $\C$ has pushouts ;
+        \item $\C$ has coequalizers ;
+        \item $\C$ has geometric realizations (colimits of diagrams of shape $\Delta^{\op}$).
+    \end{enumerate}
+\end{theorem}
+
+\end{document}
