@@ -5,6 +5,7 @@
 \usepackage[margin = 3cm]{geometry}
 \usepackage{enumitem}
 \usepackage{csquotes}
+\usepackage{stmaryrd}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -33,6 +34,7 @@
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\Einf}{\mathbb{E}_{\infty}}
 \newcommand{\Eq}{\operatorname{Eq}}
+\newcommand{\et}{\mathrm{\acute{e}t}}
 \newcommand{\FFree}{\mathrm{FFree}}
 \newcommand{\Fib}{\mathrm{Fib}}
 \newcommand{\Fun}{\operatorname{Fun}}
@@ -281,4 +283,136 @@ We get two functors :
     There is another possible construction for animated modules, which is to define finite free animated $A$-modules for $A \in \CAlg^{\ani}$ as $\FFree_A = A \otimes_{\Z}^{\L} \FFree_{\Z}$
     and then animate this to get $\Mod_A$.
 \end{remark}
+
+\section{Geometrical notions animated}
+
+This section defines flat and étale maps of animated modules, as well as how one can perform animated localizations and quotients.
+
+\subsection{Flatness}
+
+\begin{definition}
+    Let $A \in \CAlg^{\ani}$ be an animated ring and $M \in \Mod_A$ be a (connective) $A$-module.
+    $M$ is \emph{flat} if one/all of the following equivalent conditions holds :
+    \begin{enumerate}
+        \item (Homological flatness) The functor $M \otimes^{\L} -$ is left exact (i.e. it preserves finite limits) ;
+        \item (No higher Tor) For every $N \in \Mod_A$ which is $n$-truncated, the tensor product $M \otimes^{\L} N$ is also $n$-truncated ;
+        \item (Fiber-flatness) The following conditions hold :
+        \begin{enumerate}
+            \item $\pi_0(M)$ is a flat $\pi_0(A)$-module,
+            \item for every $i \geq 0$, the map
+            \[
+                \pi_i(A) \otimes_{\pi_0(A)} \pi_0(M) \to \pi_i(M)
+            \]
+            is an equivalence.
+        \end{enumerate}
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    An animated ring map $f : A \to B$ is called \emph{flat} if $B$ is flat as an $A$-module.
+    It is called \emph{faithfully flat} if it is flat and $- \otimes_A^{\L} B$ is a conservative functor.
+\end{definition}
+
+\begin{theorem}[Lurie, classically Lazard]
+    Let $A$ be an animated ring and $M \in \Mod_A$.
+    Then $M$ is flat if and only if it is a filtered colimit of finite free $A$-modules.
+\end{theorem}
+
+\subsection{Localization}
+
+When localizing, one has to be careful : trying to invert an element in a positive homotopy group of a ring forces us to create elements in the negative homotopy groups, infinitely far down - so localizing with respect to a positive homotopy class completely destroys any connectivity.
+This subsection is only about how to localize with respect to an element in the $\pi_0$ of an animated ring.
+
+Let $A$ be an animated ring.
+Its underlying space $\Map(\Z[T], A)$ contains the underlying space of units $\Map(\Z[T^{\pm 1}], A)$, which we awkwardly denote by $A^{\times}$ here.
+The inclusion induces an identification $\pi_0(A^{\times}) = \pi_0(A)^{\times}$.
+
+\begin{proposition}
+    Let $f : A \to B$ be an animated ring map, and $a \in \pi_0(A)$ be such that $f(a) \in \pi_0(B)^{\times}$.
+    The following are then equivalent :
+    \begin{enumerate}
+        \item For every animated ring $R$, we have $\Map(B, R) \simeq \Map'(A, R)$ where $\Map'$ denotes the maps which send $a$ to an invertible element in $R$ ;
+        \item For every $n$, there is an equivalence
+        \[
+            \pi_n(B) \simeq \pi_n(A) \otimes_{\pi_0(A)} \pi_0(A)[1/a].
+        \]
+    \end{enumerate}
+\end{proposition}
+When this is the case, we say that $B$ is a/the \emph{localization of $A$ with respect to $a$}.
+The module $B$ is then automatically flat over $A$, as in classical algebraic geometry.
+
+How can one construct such a localization ?
+It is not hard, one can follow the same process as in classical ring theory : just construct the localization as the derived tensor product
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXFpbVF0iXSxbMSwwLCJBIl0sWzAsMSwiXFxaW1Ree1xccG0gMX1dIl0sWzEsMSwiQiA9IEEgXFxvdGltZXNfe1xcWltUXX1ee1xcTH0gXFxaW1Ree1xccG0gMX1dIl0sWzAsMSwiYSJdLFswLDJdLFsyLDNdLFsxLDNdLFszLDAsIiIsMSx7InN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dXQ==
+\[\begin{tikzcd}
+	{\Z[T]} & A \\
+	{\Z[T^{\pm 1}]} & {B = A \otimes_{\Z[T]}^{\L} \Z[T^{\pm 1}]}
+	\arrow["a", from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=180}, draw=none, from=2-2, to=1-1]
+\end{tikzcd}\]
+Defining it this way automatically proves the proposition.
+All choices of $B$, coming from all the possible choices of $a : \Z[T] \to A$, are contractibly equivalent.
+
+With the exact same construction, it is of course possible to localize modules.
+
+\subsection{Quotients}
+Let $A$ be an animated ring and $f_1, \dots, f_n \in \pi_0(A)$ be elements, which we gather as a map $\Z[T_1, \dots, T_n] \to A$.
+Then one can define the quotient, following the same strategy as the localization :
+\[
+    A\sslash(f_1, \dots, f_n) = A \otimes_{Z[T_1, \dots, T_n]}^{\L} \frac{\Z[T_1, \dots, T_n]}{(T_1, \dots, T_n)}.
+\]
+
+\begin{proposition}
+    The quotient behaves like the usual quotient in classical ring theory :
+    \begin{enumerate}
+        \item $\pi_0(A\sslash(f_1, \dots, f_n)) \simeq \pi_0(A)/(f_1, \dots, f_n)$ ;
+        \item If $A$ is a static local ring then $A\sslash(f_1, \dots, f_n)$ is equivalent to $A/(f_1, \dots, f_n)$ \emph{if and only if} $(f_1, \dots, f_n)$ is a regular sequence\footnote{this was to be expected, since we only want derived intersections of classical things to stay classical if they behaved well in the first place.} ;
+        \item $A\sslash(f)$ is the cofiber of $f : A \to A$ (it was not clear that this cofiber had a ring structure), and more generally $A\sslash(f_1, \dots, f_n)$ is the tensor product of the cofibers of the $f_i : A \to A$\footnote{this is to be compared with the Koszul complex}.
+    \end{enumerate}
+\end{proposition}
+
+\begin{exercise}
+    A particular element of $\pi_0(A)$ is $0$.
+    What is the quotient $A\sslash(0)$ ?
+\end{exercise}
+
+\begin{definition}
+    A map of animated rings $f : A \to B$ is \emph{(formally) étale} if the following conditions hold :
+    \begin{enumerate}
+        \item $\pi_0(f) : \pi_0(A) \to \pi_0(B)$ is (formally) étale ;
+        \item For every $n \geq 0$, the map
+        \[
+            \pi_n(A) \otimes_{\pi_0(A)} \pi_0(B) \to \pi_n(B)
+        \]
+        is an equivalence.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Lurie]
+    Let $A$ be an animated ring.
+    Then the functor
+    \[
+        \pi_0 : \CAlg_A^{\et} \to \left(\CAlg_{\pi_0(A)}^{\heart}\right)^{\et}
+    \]
+    is an equivalence.
+\end{theorem}
+
+\begin{theorem}[Lurie/Matthew/Toën-Vezzosi]
+    For every faithfully flat animated ring map $A \to B$, the following diagram is a limit diagram in $\Catinf$ :
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJcXE1vZF9CIl0sWzIsMCwiXFxNb2Rfe0JcXG90aW1lcyBCfSJdLFszLDAsIlxcZG90cyJdLFswLDAsIlxcTW9kX0EiXSxbMywwXSxbMCwxLCIiLDAseyJvZmZzZXQiOi0xfV0sWzAsMSwiIiwwLHsib2Zmc2V0IjoxfV0sWzEsMl0sWzEsMiwiIiwwLHsib2Zmc2V0IjotMn1dLFsxLDIsIiIsMCx7Im9mZnNldCI6Mn1dXQ==
+    \[\begin{tikzcd}
+        {\Mod_A} & {\Mod_B} & {\Mod_{B\otimes B}} & \dots
+        \arrow[from=1-1, to=1-2]
+        \arrow[shift left, from=1-2, to=1-3]
+        \arrow[shift right, from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[shift left=2, from=1-3, to=1-4]
+        \arrow[shift right=2, from=1-3, to=1-4]
+    \end{tikzcd}\]
+\end{theorem}
+This theorem is the animated version of Grothendieck's faithfully flat descent.
+In fact, the functor $\Mod^* \in \Fun(\CAlg^{\ani}, \PrL)$ constructed above is a sheaf for the flat topology.
 \end{document}
