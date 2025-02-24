@@ -31,6 +31,7 @@
 \newcommand{\CRMod}{\mathrm{CRMod}}
 \newcommand{\Cut}{\operatorname{Cut}}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\Der}{\operatorname{Der}}
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\Einf}{\mathbb{E}_{\infty}}
 \newcommand{\Eq}{\operatorname{Eq}}
@@ -415,4 +416,39 @@ Then one can define the quotient, following the same strategy as the localizatio
 \end{theorem}
 This theorem is the animated version of Grothendieck's faithfully flat descent.
 In fact, the functor $\Mod^* \in \Fun(\CAlg^{\ani}, \PrL)$ constructed above is a sheaf for the flat topology.
+
+\section{Square-zero extensions and the cotangent complex}
+
+This last section aims to go towards the construction of the cotangent complex, which will be finished in the next session.
+
+Recall that if $A \in \CAlg^{\heart}$ is a static commutative ring and $M \in \Mod_A^{\heart}$ is a static $A$-module, then one can construct $A \oplus M \in \CAlg_{A//A}^{\heart}$ as an augmented $A$-algebra.
+The product in this algebra is given by the following formula :
+\[
+    (a, m) \cdot (a', m') = (aa', am' + a'm),
+\]
+which is a square-zero multiplication.
+
+\begin{remark}
+    By design, this augmented algebra corepresents ($\Z$-linear) derivations :
+    \[
+        \Der(A, M) \simeq \Hom_{\CAlg_{/A}^{\heart}}(A, A \oplus M).
+    \]
+    It sends a derivation $D$ to the map $s : a \mapsto (a, D(a))$.
+\end{remark}
+If we want to introduce derivations in an $\infty$-categorical context, there is a problem : how can one define the Leibniz rule $D(ab) = D(a)b + aD(b)$ without strict equality ?
+The answer is that thanks to $A \oplus M$, we don't care : it suffices to define $A \oplus M$ and to define derivations as the things corepresented by this augmented algebra.
+
+It looks like we have just moved the problem, because we now have to define the correct multiplication on $A \oplus M$.
+There is a brutal model-categorical way to do this, but we don't have to.
+
+It suffices to animate the functor $\CRMod^{\heart} \to \CAlg$ sending the static $(A, M)$ to $A \oplus M$ as defined above.
+We get a functor $F : \Ani(\CRMod^{\heart}) \to \CAlg^{\ani}$, satisfying the following basic properties :
+\begin{enumerate}
+    \item $F$ preserves static objects ;
+    \item If $M \simeq 0$ in $\Mod_A$, then $F(M) \simeq A$ in $\CAlg^{\ani}$ ;
+    \item $A \oplus M \in \CAlg_{A//A}^{\ani}$ is an augmented $A$-algebra.
+\end{enumerate}
+
+The third point is really easy to understand once we have the second one : consider the stupid sequence $0 \to M \to 0$ in $\Mod_A$, and simply apply $F$.
+Since $F(0) \simeq A$, we obtain the desired sequence $A \to A \oplus M \to A$.
 \end{document}
