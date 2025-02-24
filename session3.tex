@@ -30,6 +30,7 @@
 \newcommand{\Cut}{\operatorname{Cut}}
 \newcommand{\D}{\mathcal{D}}
 \newcommand{\E}{\mathcal{E}}
+\newcommand{\Einf}{\mathbb{E}_{\infty}}
 \newcommand{\Eq}{\operatorname{Eq}}
 \newcommand{\Fib}{\mathrm{Fib}}
 \newcommand{\Fun}{\operatorname{Fun}}
@@ -51,7 +52,9 @@
 \renewcommand{\P}{\mathcal{P}}
 \newcommand{\Poly}{\mathrm{Poly}}
 \newcommand{\proj}{\mathrm{proj}}
+\newcommand{\Q}{\mathbf{Q}}
 \newcommand{\QCoh}{\operatorname{QCoh}}
+\newcommand{\SCR}{\mathrm{SCR}}
 \newcommand{\Set}{\mathrm{Set}}
 \newcommand{\Sp}{\mathcal{S}\mathrm{p}}
 \newcommand{\Spc}{\mathcal{S}\mathrm{pc}}
@@ -71,4 +74,93 @@
 \begin{document}
 \maketitle
 
+\section{A word about simplicial rings and $\Einf$-rings}
+
+Recall from the previous session that if $C$ is a category with coproducts, then $\Ani(C) = \P_{\Sigma}(C^{1-\omega\proj})$ is its animation.
+In particular, $\CAlg^{\ani} = \Fun^{\Pi}(\Poly_{\Z}^{\op}, \Spc)$ is the $\infty$-category of animated rings, and it contains fully faithfully the usual category $\CAlg^{\heart}$ as the subcategory of $0$-truncated objects.
+
+\begin{remark}
+    Denoting by $\SCR$ the simplicial category of simplicial commutative rings, there is an equivalence
+    \[
+        \infty(\N_{\Delta}(\SCR)) \simeq \CAlg^{\ani}
+    \]
+    between animated rings and the $\infty$-category associated to the simplicial nerve of $\SCR$.
+    That is the main reason why the simplicial approach of Toën-Vezzosi gives the same theory in the end as the more modern approach using animated rings.
+\end{remark}
+
+Another approach that is linked to animated rings is the theory of $\Einf$-rings.
+Recall that the $\infty$-category $\Sp$ of spectra admits a structure of a symmetric monoidal stable $\infty$-category.
+In particular, it is possible to consider commutative algebra objects, and we get the $\infty$-category $\CAlg(\Sp)$ of $\Einf$-rings spectra.
+
+One can associate to any polynomial algebra a connective ring spectrum, yielding a functor
+\[
+    \Poly_{\Z} \to \CAlg(\Sp_{\geqslant 0})
+\]
+which then extends to
+\[
+    \CAlg^{\ani} \to \Einf\text{-rings}.
+\]
+
+However, this functor is not essentially surjective.
+Indeed, if $A$ is an animated ring, then $\pi_*(A)$ is a graded commutative ring, each $\pi_n(A)$ is a module over the classical ring $\pi_0(A)$.
+More importantly, the even homotopy groups $\pi_{2*}(A)$ have a structure of a divided power algebra\footnote{if $A$ is an algebra over the rational numbers $\Q$, then this structure is just the usual division by integers.}.
+
+This is not the case for every $\Einf$-ring spectrum.
+For example, the algebra $\mathbb{F}_p[X]$ with $X$ of degree $2$ does not admit a PD-structure, so it doesn't come from any animated ring.
+
+That being said, this phenomenon purely comes from torsion, and if we consider rational algebras, we get an equivalence :
+\[
+    \CAlg_{\Q}^{\ani} \simeq \CAlg(\Sp_{\geqslant 0})_{\Q/}.
+\]
+
+\section{Base change}
+
+\begin{lemma}
+    Let $\varphi : R \to R'$ be a morphism in $\CAlg^{\heart}$.
+    It induces a functor $\Poly_R \to \Poly_{R'}$ sending $P$ to $P \otimes_R R'$, inducing an adjunction :
+    \[
+        \CAlg_R^{\ani} \rightleftarrows \CAlg_{R'}^{\ani}
+    \]
+    between extension and restriction of scalars.
+\end{lemma}
+\begin{proof}
+    In the following diagram, the diagonal composition descends to a unique extension of scalars functor :
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXFBvbHlfUiJdLFsxLDAsIlxcUG9seV97Uid9Il0sWzEsMSwiXFxDQWxnX3tSJ31ee1xcYW5pfSJdLFswLDEsIlxcQ0FsZ19SXntcXGFuaX0iXSxbMCwxLCItIFxcb3RpbWVzX1IgUiciXSxbMCwzLCJqIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMSwyLCJqIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMCwyXSxbMywyLCJcXGV4aXN0cyEiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \[\begin{tikzcd}
+        {\Poly_R} & {\Poly_{R'}} \\
+        {\CAlg_R^{\ani}} & {\CAlg_{R'}^{\ani}}
+        \arrow["{- \otimes_R R'}", from=1-1, to=1-2]
+        \arrow["j"', hook, from=1-1, to=2-1]
+        \arrow[from=1-1, to=2-2]
+        \arrow["j", hook, from=1-2, to=2-2]
+        \arrow["{\exists!}"', dashed, from=2-1, to=2-2]
+    \end{tikzcd}\]
+    as the image of $j \circ (- \otimes_R R')$ by the equivalence
+    \[
+        \Fun_{\Sigma}(\Poly_R, \CAlg_{R'}^{\ani}) \simeq \Fun'(\CAlg_R^{\ani}, \CAlg_{R'}^{\ani}).
+    \]
+    The existence of a right adjoint comes from presentability and the adjoint functor theorem.
+\end{proof}
+
+This construction yields the same result as the \enquote{naive} idea of taking $R \in \CAlg^{\heart}$ and $S, T \in \CAlg_R^{\ani}$, and defining $S \otimes_R^{\L} T$ as the corresponding pushout of animated algebras.
+To see this, just notice that they have the exact same behavior on polynomial algebras, and both constructions preserve enough colimits to extend to the same functor.
+
+\begin{remark}
+    There is an equivalence $\Ani(\CAlg_R^{\heart}) \simeq \CAlg^{\ani}_{R/}$ between the animation of the category of (classical) $R$-algebras and the slice category of animated algebras under $R$.
+\end{remark}
+
+This remark being true for static rings $R$ motivates the following definition for all animated rings.
+
+\begin{definition}
+    Let $A \in \CAlg^{\ani}$ be an animated ring.
+    Then define the $\infty$-category of animated $A$-algebras as :
+    \[
+        \CAlg_A^{\ani} = \Ani(\CAlg^{\heart})_{A/}.
+    \]
+\end{definition}
+In fact this is even functorial in $A$, in the sense that a functor
+\[
+    \CAlg_{(-)}^{\ani} : \Ani(\CAlg^{\heart}) \to \Catinf
+\]
+can be obtained by straightening the extension/restriction of scalars adjunction constructed above.
 \end{document}
