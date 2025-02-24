@@ -27,11 +27,13 @@
 \newcommand{\cc}{\mathrm{cc}}
 \newcommand{\Cof}{\mathrm{Cof}}
 \newcommand{\colim}{\operatorname*{colim}}
+\newcommand{\CRMod}{\mathrm{CRMod}}
 \newcommand{\Cut}{\operatorname{Cut}}
 \newcommand{\D}{\mathcal{D}}
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\Einf}{\mathbb{E}_{\infty}}
 \newcommand{\Eq}{\operatorname{Eq}}
+\newcommand{\FFree}{\mathrm{FFree}}
 \newcommand{\Fib}{\mathrm{Fib}}
 \newcommand{\Fun}{\operatorname{Fun}}
 \newcommand{\Grpd}{\mathrm{Grpd}}
@@ -45,12 +47,16 @@
 \renewcommand{\L}{\mathbb{L}}
 \newcommand{\M}{\mathscr{M}}
 \newcommand{\Map}{\operatorname{Map}}
+\newcommand{\Mod}{\mathrm{Mod}}
 \newcommand{\N}{\mathrm{N}}
 \newcommand{\Ob}{\operatorname{Ob}}
 \newcommand{\op}{\mathrm{op}}
 \newcommand{\p}{\mathfrak{p}}
 \renewcommand{\P}{\mathcal{P}}
 \newcommand{\Poly}{\mathrm{Poly}}
+\newcommand{\PrL}{\mathrm{Pr}^{\mathrm{L}}}
+\newcommand{\PrR}{\mathrm{Pr}^{\mathrm{R}}}
+\newcommand{\pr}{\mathrm{pr}}
 \newcommand{\proj}{\mathrm{proj}}
 \newcommand{\Q}{\mathbf{Q}}
 \newcommand{\QCoh}{\operatorname{QCoh}}
@@ -163,4 +169,116 @@ In fact this is even functorial in $A$, in the sense that a functor
     \CAlg_{(-)}^{\ani} : \Ani(\CAlg^{\heart}) \to \Catinf
 \]
 can be obtained by straightening the extension/restriction of scalars adjunction constructed above.
+
+\section{Animated modules}
+
+Let $R \in \CAlg^{\heart}$ be a classical ring.
+Then the compact projective $R$-modules $(\Mod_R^{\heart})^{\omega\proj}$ are the retracts of finite free modules.
+One then gets the $\infty$-category of animated $R$-modules by taking $\Sigma$-presheaves of spaces on those modules.
+
+It is possible to promote this construction in two different ways :
+\begin{itemize}
+    \item allow $R$ to be an animated ring ;
+    \item make this construction functorial in $R$.
+\end{itemize}
+This section's goal is to do both at once.
+
+Let $\CRMod^{\heart}$ be the following 1-category.
+Its objects are pairs $(A, M)$ with $A \in \CAlg^{\heart}$ a ring and $M \in \Mod_A^{\heart}$ an $A$-module.
+A morphism $(A, M) \to (B, N)$ consists of a ring map $f : A \to B$, and of a $B$-linear map $\varphi : M \otimes_A B \to N$ (or equivalently by adjunction, an $A$-linear map from $M$ to the restriction of $N$).
+
+\begin{proposition}
+    The compact projective objects of $\CRMod^{\heart}$ are the (retracts of) finite free modules over (retracts of) finite polynomial algebras over $\Z$.
+    In other words, up to retracts, every compact projective object in this category looks like $(\Z[\underline{X}], \Z[\underline{X}]^{\oplus n})$ with $\underline{X}$ a finite set of unknowns and $n \geqslant 0$.
+\end{proposition}
+\begin{proof}[Ideas of the proof]
+    Let $C$ be the category which is claimed to be $(\CRMod^{\heart})^{\omega\proj}$ in the statement.
+    Notice that every object in $\CRMod^{\heart}$ is a 1-sifted colimit of objects of $C$.
+    Also, $C$ is the closure under finite coproducts of the category spanned by the two generating objects $(\Z[T], 0)$ and $(\Z, \Z)$.
+    Finally, both these objects are themselves compact projective.
+\end{proof}
+
+Keeping this notation, the animation $\Ani(\CRMod^{\heart})$ is the $\infty$-category of presheaves of spaces on this $C$.
+We then get two projection functors :
+\[
+    \CAlg^{\ani} \xleftarrow{\pr_1} \Ani(\CRMod^{\heart}) \xrightarrow{\pr_2} \Mod_{\Z}^{\ani}.
+\]
+Notice that both functors have sections.
+
+\begin{remark}
+    For every static ring $R \in \CAlg^{\heart}$, the forgetful functor
+    \[
+        \Ani(\CRMod^{\heart}_R) \to \CAlg_R^{\ani} \times \Mod_R^{\ani}
+    \]
+    is conservative.
+\end{remark}
+
+This $\infty$-category together with the inner fibration $\pr_1$ gives the desired definition and functoriality of the $\infty$-categories of animated modules.
+
+\begin{definition}
+    For every animated ring $A \in \CAlg^{\ani}$, let $\Mod_A$ be the fiber of $\pr_1$ over $A$.
+    In other words, it is the following pullback
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXE1vZF9BIl0sWzEsMCwiXFxBbmkoXFxDUk1vZF57XFxoZWFydH0pIl0sWzEsMSwiXFxDQWxnXntcXGFuaX0iXSxbMCwxLCJcXERlbHRhXjAiXSxbMywyLCJBIiwyXSxbMSwyLCJcXHByXzEiXSxbMCwzXSxbMCwxXSxbMCwyLCIiLDEseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XV0=
+    \[\begin{tikzcd}
+        {\Mod_A} & {\Ani(\CRMod^{\heart})} \\
+        {\Delta^0} & {\CAlg^{\ani}}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-1, to=2-1]
+        \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+        \arrow["{\pr_1}", from=1-2, to=2-2]
+        \arrow["A"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    and it is indeed an $\infty$-category because $\pr_1$ is an inner fibration.
+\end{definition}
+
+Actually, $\pr_1$ is fortunately more than an inner fibration.
+It is both a Cartesian and a coCartesian fibration, whence a functoriality of $\Mod_(-)$ both covariantly and contravariantly.
+\begin{theorem}
+    $\pr_1$ is a biCartesian fibration.
+\end{theorem}
+\begin{proof}
+    Let us prove that it is coCartesian.
+    Concretely, for every animated ring map $f : A \to B$, we need to find $\mathcal{A}, \mathcal{B} \in \Ani(\CRMod^{\heart})$ whose $\pr_1$ are respectively $A$ and $B$, and a map $\phi : \mathcal{A} \to \mathcal{B}$ such that for every $X \in \Ani(\CRMod^{\heart})$, the following diagram is homotopy-cartesian in $\Spc$ :
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXE1hcChcXG1hdGhjYWx7Qn0sIFgpIl0sWzEsMCwiXFxNYXAoXFxtYXRoY2Fse0F9LCBYKSJdLFswLDEsIlxcTWFwKEIsIFxccHJfMShYKSkiXSxbMSwxLCJcXE1hcChBLCBcXHByXzEoWCkpIl0sWzAsMSwiXFxwaGkiXSxbMSwzLCJcXHByXzEiXSxbMCwyLCJcXHByXzEiLDJdLFsyLDMsImYiLDJdXQ==
+    \[\begin{tikzcd}
+        {\Map(\mathcal{B}, X)} & {\Map(\mathcal{A}, X)} \\
+        {\Map(B, \pr_1(X))} & {\Map(A, \pr_1(X))}
+        \arrow["\phi", from=1-1, to=1-2]
+        \arrow["{\pr_1}"', from=1-1, to=2-1]
+        \arrow["{\pr_1}", from=1-2, to=2-2]
+        \arrow["f"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    The homotopy-cartesianity condition is equivalent to the fibers of the vertical arrows being homotopy equivalent.
+
+    Since every possible choice of $\mathcal{A}$ and $\mathcal{B}$ are sifted colimits of compact projective objects, and since pullbacks commute with cosifted limits, it will suffice to treat the case of $A$ and $B$ compact projective, and to look for $\mathcal{A}$ and $\mathcal{B}$ compact projective as well.
+    By definition of compact projectivity, it also suffices to treat the case where $X$ itself is compact projective.
+
+    Now the mapping spaces in the diagram have all become discrete sets !
+    Write $\mathcal{A} = (A, M)$, $\mathcal{B} = (B, N)$ and $X = (\pr_1(X), M_X)$.
+    Take $\psi : B \to \pr_1(X)$ and compare $\pr_1^{-1}(\psi) \in \Map(\mathcal{B}, X)$ which we can describe as
+    \[
+        \pr_1^{-1}(\psi) = \{\tilde{\psi} : (B, N) \to (\pr_1(X), M_X) \mid \pr_1(\tilde{\psi}) = \psi\} \simeq \Hom_{\Mod_{\pr_1(X)}}(N \otimes_B \pr_1(X), M_X),
+    \]
+    with $\pr_1^{-1}(\psi \circ f) \in \Map(\mathcal{A}, X)$ which can similarly be described as
+    \[
+        \pr_1^{-1}(\psi \circ f) \simeq \Hom_{\Mod_{\pr_1(X)}}((M \otimes_A B) \otimes_B \pr_1(X), M_X).
+    \]
+    
+    Of course, only $f : A \to B$ is given, and we are free to choose $M$ and $N$.
+    We just need a morphism $\pr_2(\phi) : M \otimes_A B \to N$ such that $\pr_2(\phi) \otimes \pr_1(X)$ is an equivalence for every choice of $X$.
+
+    One can take $M = A$ and $N = B$ (and the fibers are both $M_X$), or even more stupidly, one can take $M = 0$ and $N = 0$ (and the fibers are both singletons).
+\end{proof}
+
+This is the exact theorem that was needed to show the functoriality of the $\infty$-category of animated modules.
+We get two functors :
+\begin{itemize}
+    \item $\Mod \in \Fun(\CAlg^{\ani, \op}, \PrR)$ sending $\phi : A \to A'$ to the $\infty$-functor $\Mod(\phi) : \Mod_{A'} \to \Mod_A$ given by (generalized) restriction of scalars ;
+    \item $\Mod^* \in \Fun(\CAlg^{\ani}, \mathrm{Pr}^{\mathrm{L}, \otimes})$ sending $A \to A'$ to the symmetric monoidal $\infty$-functor of (generalized) extension of scalars $- \otimes_A^{\L} A' : \Mod_A \to \Mod_{A'}$.
+\end{itemize}
+
+\begin{remark}
+    There is another possible construction for animated modules, which is to define finite free animated $A$-modules for $A \in \CAlg^{\ani}$ as $\FFree_A = A \otimes_{\Z}^{\L} \FFree_{\Z}$
+    and then animate this to get $\Mod_A$.
+\end{remark}
 \end{document}
