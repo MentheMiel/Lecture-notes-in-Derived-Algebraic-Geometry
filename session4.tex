@@ -301,5 +301,70 @@ This should be a good clue that $\star$ is homotopy equivalent to the bottom-rig
 This would in turn show that there is a map from $\tau_{\leqslant n}R$ to the pullback.
 Of course, this all depends on the existence of a suitable derivation $d$, which will not be discussed.
 
+\section{Another word on geometrical aspects}
 
+\begin{definition}
+    Let $k \to R$ be a map of animated rings.
+    We say that $R$ is \emph{derived formally smooth over $k$} if for every square-zero extension of $k$-algebras $S' \to S$ and for every map $R \to S$, there exists a lift in the following diagram of $k$-algebras :
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJSIl0sWzEsMCwiUyJdLFsxLDEsIlMnIl0sWzIsMV0sWzAsMV0sWzAsMiwiIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+    \[\begin{tikzcd}
+        R & S \\
+        & {S'}
+        \arrow[from=1-1, to=1-2]
+        \arrow[dashed, from=1-1, to=2-2]
+        \arrow[from=2-2, to=1-2]
+    \end{tikzcd}\]
+\end{definition}
+
+\begin{proposition}
+    With the same notation, being derived formally smooth is equivalent to the vanishing of $\pi_0 \Map(\L_{R/k}, M[1])$ for every $M \in \Mod_R$.
+\end{proposition}
+
+\begin{definition}
+    With the same notation as above and in the derived formally smooth assumption, we say that $R$ is \emph{derived formally étale} if moreover the space of lifts is contractible.
+\end{definition}
+
+\begin{proposition}
+    Being derived formally étale is equivalent to being formally étale in the sense of the definition from the previous session (namely, that the $\pi_0$ is étale and that $\pi_i(R) \simeq \pi_i(k) \otimes_{\pi_0(k)} \pi_0(R))$.
+\end{proposition}
+
+\begin{exercise}
+    Let $R$ be an animated ring and $x_1, \dots, x_c \in \pi_0 R$.
+    Then prove that
+    \[
+        \L_{\left(R\sslash(x_1, \dots, x_c)\right)/R} \simeq R\sslash(x_1, \dots, x_c)^{\oplus c}[1].
+    \]
+    If $\mathcal{J}$ is the fiber of the map $R \to R\sslash(x_1, \dots, x_c)$, then
+    \[
+        \L \simeq \mathcal{J} \otimes_R R\sslash(x_1, \dots, x_c)[1].
+    \]
+    Concretely, the cotangent complex \enquote{contains} the conormal bundle.
+    To be more precise, if $A \to B$ is a map of static rings in $\CAlg^{\heart}$, then
+    \[
+        \tau_{\leqslant 1} \L_{B/A} \simeq \left[\mathcal{I}/\mathcal{I}^2 \to \Omega_A \otimes_A B\right].
+    \]
+\end{exercise}
+
+\begin{theorem}[Quillen, Lurie]
+    Let $f : A \to B$ be a map whose cofiber is $n$-connective.
+    Then $\varepsilon(f)$ is $(n+2)$-connective.
+    Moreover, $f$ is an equivalence is and only if $\L_{B/A} \simeq 0$ and $\pi_0(A) \simeq \pi_0(B)$.
+\end{theorem}
+
+\begin{definition}
+    Let $R$ be an animated ring and $M \in \Mod_R$.
+    We say that $M$ has \emph{Tor-amplitude in $[a, b]$} if for every static module $N \in \Mod_{\pi_0R}^{\heart}$, we have $H_i(M \otimes_R^{\L} N) = 0$ whenever $i \notin [a, b]$.
+\end{definition}
+
+The following theorem, conjectured by Quillen decades earlier, is striking : it explains that under mild assumptions, the cotangent complex is either extremely simple (concentrated in degrees 0 and 1) or extremely complex (unbounded).
+
+\begin{theorem}[Avramov]
+    If $f : k \to R$ is a map of noetherian rings, then it is locally complete intersection if and only if $R$ is locally of finite flat dimension and $\L_{R/k}$ has bounded Tor-amplitude.
+\end{theorem}
+
+\begin{proposition}
+    Let $A$ be an animated ring and $B \in \CAlg_A^{\omega}$ be a compact $A$-algebra.
+    Then $\L_{B/A}$ is also compact as a $B$-module.
+    The converse is also true if $\pi_0(B)$ is of finite presentation over $\pi_0(A)$.
+\end{proposition}
 \end{document}
