@@ -18,6 +18,7 @@
 \newtheorem{exercise}[theorem]{Exercise}
 
 \newcommand{\A}{\mathbf{A}}
+\newcommand{\aff}{\mathrm{aff}}
 \newcommand{\Ani}{\operatorname{Ani}}
 \newcommand{\ani}{\mathrm{ani}}
 \newcommand{\aug}{\mathrm{aug}}
@@ -27,12 +28,14 @@
 \newcommand{\Cat}{\mathrm{Cat}}
 \newcommand{\Catinf}{\mathcal{C}\mathrm{at}_{\infty}}
 \newcommand{\cc}{\mathrm{cc}}
+\newcommand{\cl}{\mathrm{cl}}
 \newcommand{\Cof}{\mathrm{Cof}}
 \newcommand{\colim}{\operatorname*{colim}}
 \newcommand{\CRMod}{\mathrm{CRMod}}
 \newcommand{\Cut}{\operatorname{Cut}}
 \newcommand{\D}{\mathcal{D}}
 \newcommand{\Der}{\operatorname{Der}}
+\newcommand{\dSch}{\mathrm{dSch}}
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\Einf}{\mathbb{E}_{\infty}}
 \newcommand{\Eq}{\operatorname{Eq}}
@@ -59,7 +62,9 @@
 \newcommand{\op}{\mathrm{op}}
 \newcommand{\p}{\mathfrak{p}}
 \renewcommand{\P}{\mathcal{P}}
+\newcommand{\Perf}{\mathrm{Perf}}
 \newcommand{\Poly}{\mathrm{Poly}}
+\newcommand{\PreStack}{\mathrm{PreStack}}
 \newcommand{\PrL}{\mathrm{Pr}^{\mathrm{L}}}
 \newcommand{\PrR}{\mathrm{Pr}^{\mathrm{R}}}
 \newcommand{\pr}{\mathrm{pr}}
@@ -72,6 +77,7 @@
 \newcommand{\Spc}{\mathcal{S}\mathrm{pc}}
 \newcommand{\Spec}{\operatorname{Spec}}
 \newcommand{\sSet}{\mathrm{sSet}}
+\newcommand{\Stack}{\mathrm{Stack}}
 \newcommand{\Tor}{\operatorname{Tor}}
 \newcommand{\X}{\mathcal{X}}
 \newcommand{\Y}{\mathcal{Y}}
@@ -367,4 +373,121 @@ The following theorem, conjectured by Quillen decades earlier, is striking : it 
     Then $\L_{B/A}$ is also compact as a $B$-module.
     The converse is also true if $\pi_0(B)$ is of finite presentation over $\pi_0(A)$.
 \end{proposition}
+
+\section{Global derived geometry}
+
+This last section aims to give a glimpse on how one can globalize the ring-theoretic constructions that have been discussed up until now, in order to define derived schemes.
+
+\subsection{Prestacks and affine derived schemes}
+
+There are two approaches, the first using ringed topoi and looking like the \enquote{locally ringed space} approach to schemes.
+The second one, which will be followed here, is the \enquote{functor of points and descent conditions} approach.
+It is in a sense more natural, at least algebraically.
+
+\begin{definition}
+    Let $\PreStack = \Fun(\CAlg^{\ani}, \Spc)$ be the category of functors on derived rings.
+    By Yoneda, any animated ring $A$ defines a representable prestack $\Spec(A) = \Map_{\CAlg^{\ani}}(A, -)$.
+    Let $\dSch^{\aff}$ be the full subcategory of $\PreStack$ spanned by these affine derived schemes $\Spec(A)$.
+\end{definition}
+
+Recall that there is an adjunction between the inclusion $\CAlg^{\heart} \hookrightarrow \CAlg^{\ani}$ and the $\pi_0$ functor : this yields an adjunction by further abstract nonsense :
+\[
+    \pi_0^* : \PreStack^{\cl} \rightleftarrows \PreStack : (-)^{\cl}
+\]
+where $\PreStack^{\cl} = \Fun(\CAlg^{\heart}, \Spc)$.
+
+\begin{remark}
+    For every animated ring $A$, we have $\Spec(A)^{\cl} = \Spec(\pi_0 A)$.
+\end{remark}
+
+\subsection{Grothendieck topologies}
+
+Let us define the Zariski and étale topologies on $\dSch^{\aff}$.
+
+\begin{definition}
+    Let $I$ be a set and $\{j_{\alpha} : \Spec(B_{\alpha}) \to \Spec(A)\}_{\alpha \in I}$ be a family of maps in $\dSch^{\aff}$.
+    Such a family is a \emph{Zariski covering} (resp. \emph{étale covering}) if the following conditions hold.
+    \begin{enumerate}
+        \item The functor $\Mod_A \to \prod_{\alpha} \Mod_{B_{\alpha}}$ is conservative ;
+        \item Each map $A \to B_{\alpha}$ is Zariski, i.e. it is an open immersion at the $\pi_0$ level and $\pi_i(B_{\alpha}) \simeq \pi_i(A) \otimes_{\pi_0(A)} \pi_0(B_{\alpha})$ (resp. each map is (formally) étale in the sense already defined earlier).
+    \end{enumerate}
+\end{definition}
+
+A prestack $F$ is then a sheaf for the topology $\tau$ (here, $\tau$ is Zar or ét) if for every such covering family, $F(A)$ is the limit of the corresponding \v{C}ech diagram $F(B^{\otimes \bullet})$.
+
+One can similarly define a hypersheaf by imposing a descent condition for hypercovers.
+
+\begin{definition}
+    A \emph{derived stack} is a prestack that is an étale hypersheaf.
+\end{definition}
+
+\begin{remark}
+    To define modules on a prestack $\mathfrak{X}$ instead of just an animated ring $A$, one can construct the right Kan extension of $\Mod^* : \CAlg^{\ani, \op} \to \mathrm{Pr}^{\mathrm{L}, \otimes}$ to get a new functor
+    \[
+        \QCoh : \PreStack \to \mathrm{Pr}^{\mathrm{L}, \otimes}.
+    \]
+    By definition,
+    \[
+        \QCoh(\mathfrak{X}) \simeq \lim_{\Spec(B) \in \dSch^{\aff}_{/\mathfrak{X}}} \QCoh(\Spec(B))
+    \]
+    where $\QCoh(\Spec(B)) = \Mod_B$ is simply the $\infty$-category of animated $B$-modules.
+\end{remark}
+
+\begin{definition}
+    A Zariski stack $\mathfrak{X}$ is a \emph{derived scheme} if there exists a cover by affine derived schemes : there exists a family $\mathcal{U} = (\mathcal{U}_{\alpha})$ with $\mathcal{U}_{\alpha} \to \mathfrak{X}$ open immersions from affine derived schemes $\mathcal{U}_{\alpha} \simeq \Spec(A_{\alpha})$, such that $\coprod_{\alpha} \mathcal{U}_{\alpha} \to \mathfrak{X}$ is an effective epimorphism.
+\end{definition}
+
+In this definition, \enquote{open immersion} refers to a morphism $\mathfrak{Y} \to \mathfrak{X}$ such that $\mathfrak{Y} \times_{\mathfrak{X}} \Spec(A) \to \Spec(A)$ is an open immersion for every animated ring $A$.
+More generally, one can define representability in the following way.
+
+\begin{definition}
+    A morphism $f : \mathfrak{X} \to \mathfrak{Y}$ is \emph{(-1)-geometric} or \emph{representable} if for every map $\Spec(A) \to \mathfrak{Y}$, the pullback $\mathfrak{X} \times_{\mathfrak{Y}} \Spec(A)$ is an affine derived scheme $\Spec(B)$.
+\end{definition}
+
+The higher levels of geometricity are defined recursively.
+
+\begin{definition}
+\label{def geometricity}
+    If $\mathfrak{X}$ is a derived stack, we say that it is \emph{(-1)-geometric} if it is affine.
+    For every $n \geqslant 0$, we say that $\mathfrak{X}$ is \emph{$n$-geometric} if the following conditions hold :
+    \begin{enumerate}
+        \item The diagonal $\Delta : \mathfrak{X} \to \mathfrak{X} \times \mathfrak{X}$ is $(n-1)$-geometric ;
+        \item There is an affine covering $\coprod \Spec(B_i) \twoheadrightarrow \mathfrak{X}$ that is $(n-1)$-geometric and étale.
+    \end{enumerate}
+    A morphism of derived stacks $f : \mathfrak{X} \to \mathfrak{Y}$ is \emph{$m$-geometric} for $m \geqslant 0$ if for every map $\Spec(A) \to \mathfrak{Y}$, the pullback $P$ in the following square
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJQIl0sWzEsMCwiXFxtYXRoZnJha3tYfSJdLFsxLDEsIlxcbWF0aGZyYWt7WX0iXSxbMCwxLCJcXFNwZWMoQSkiXSxbMSwyLCJmIl0sWzMsMl0sWzAsM10sWzAsMV0sWzAsMiwiIiwxLHsic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV1d
+    \[\begin{tikzcd}
+        P & {\mathfrak{X}} \\
+        {\Spec(A)} & {\mathfrak{Y}}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-1, to=2-1]
+        \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+        \arrow["f", from=1-2, to=2-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    is $m$-geometric.
+\end{definition}
+
+Along with the different levels of geometricity, there is also a hierarchy of levels of \emph{stack-ity}.
+
+\begin{definition}
+    A derived stack $\mathfrak{X}$ is an \emph{$n$-stack} if for every static ring $A \in \CAlg^{\heart}$, the space $\mathfrak{X}(A)$ is $n$-truncated.
+\end{definition}
+In other words, higher stacks have \enquote{higher coherence data}.
+
+\begin{remark}
+    A classical Artin stack is a 1-geometric 1-stack with these definitions.
+    A \emph{higher Deligne-Mumford stack} would be a geometric stack with \enquote{smooth} replacing the word \emph{étale} in the second condition of Definition \ref{def geometricity}.
+\end{remark}
+
+\begin{proposition}
+    The functor $\Perf : \CAlg^{\ani} \to \Spc$ sending an animated ring $A$ to the space of perfect complexes $\left(\Mod_A^{\mathrm{perf}}\right)^{\simeq}$ is a locally geometric stack : it is a filtered colimit of geometric stacks by monomorphic transition maps.
+\end{proposition}
+\begin{proof}[Ideas of the proof]
+    This filtered colimit is none other than $\Perf = \bigcup_{a \leqslant b} \Perf_{[a, b]}$ where $\Perf_{[a, b]}$ denotes the perfect complexes with Tor-amplitude in $[a, b]$.
+
+    One can show that $\Perf_{[a, b]}$ is $(b-a+1)$-geometric, by induction on $n = b-a+1$.
+    The case $n = 1$ is already interesting, since $\Perf_{[a, a]} \simeq \mathrm{Vect} \simeq \coprod_m \mathrm{BGL}_m$.
+    This is indeed 1-geometric, each $\mathrm{BGL}_m = [\ast / \mathrm{GL}_m]$ being a geometric realization.
+\end{proof}
 \end{document}
