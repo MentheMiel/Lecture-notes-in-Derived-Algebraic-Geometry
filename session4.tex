@@ -285,4 +285,21 @@ it is sufficient and necessary that the derivation $R \to S \xrightarrow{d} S \o
     This Postnikov construction allows for handy inductive arguments using the cotangent complex.
 \end{example}
 
+\paragraph{Sketch of why this is true}
+One easy thing to see first is that $\tau_{\leqslant n}R$ should equalize the two maps to the tensor product :
+\[
+    \tau_{\leqslant n} R \to \tau_{\leqslant n-1}R \rightrightarrows \tau_{\leqslant n-1}R \otimes_{\tau_{\leqslant n} R} \tau_{\leqslant n-1}R
+\]
+(even though this might not be an equalizer diagram).
+Apply the $\tau_{\leqslant n+1}$ functor to this to get
+\[
+    \tau_{\leqslant n} R \to \tau_{\leqslant n-1}R \rightrightarrows \underbrace{\tau_{\leqslant n+1}(\tau_{\leqslant n-1}R \otimes_{\tau_{\leqslant n} R} \tau_{\leqslant n-1}R)}_{\star}.
+\]
+What is $\star$ ?
+We can compute its homotopy groups with the long exact sequence and check that $\pi_*(\star) \simeq \pi_*(\tau_{\leqslant n-1}R \oplus \pi_n(R)[n+1])$.
+This should be a good clue that $\star$ is homotopy equivalent to the bottom-right object of the square in the statement.
+This would in turn show that there is a map from $\tau_{\leqslant n}R$ to the pullback.
+Of course, this all depends on the existence of a suitable derivation $d$, which will not be discussed.
+
+
 \end{document}
